@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/cupertino.dart';
-
-class MyHomePage extends StatefulWidget {
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+import 'package:sp_sgld_flutter/utils/NavigatorUtils.dart';
+import 'package:oktoast/oktoast.dart';
+/**
+ * Created by ZWP on 2019/6/20 18:16.
+ * 描述：登录页面
+ */
+class LoginPage extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _LoginPageState extends State<LoginPage> {
   TextEditingController accountController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
 
@@ -43,10 +40,11 @@ class _MyHomePageState extends State<MyHomePage> {
           //标题
           _getTitleLayout(),
           //账号输入框
-          _getInputLayout(accountController, "assets/images/logo.png", "请输入密码"),
+          _getInputLayout(
+              accountController, "assets/images/logo.png", "请输入用户名", false),
           //密码输入框
           _getInputLayout(
-              passwordController, "assets/images/logo.png", "请输入密码"),
+              passwordController, "assets/images/logo.png", "请输入密码", true),
           //注册和忘记密码
           _getRegisterOrForgetLayout(),
           //登录按钮
@@ -72,8 +70,8 @@ class _MyHomePageState extends State<MyHomePage> {
   /**
    * 获取输入布局
    */
-  _getInputLayout(
-      TextEditingController controller, String lableIcon, String hintText) {
+  _getInputLayout(TextEditingController controller, String lableIcon,
+      String hintText, bool b) {
     return Center(
       child: Container(
         width: ScreenUtil().setWidth(650),
@@ -95,8 +93,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 margin: EdgeInsets.only(right: ScreenUtil().setWidth(30)),
                 child: Image.asset(
                   lableIcon,
-                  width: 30,
-                  height: 30,
+                  width: ScreenUtil().setWidth(30),
+                  height: ScreenUtil().setWidth(30),
                   fit: BoxFit.contain,
                 ),
               ),
@@ -107,11 +105,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: TextField(
                     autofocus: false,
                     keyboardType: TextInputType.text,
-                    textInputAction: TextInputAction.done,
+                    obscureText: b,
+                    textInputAction:
+                        b ? TextInputAction.done : TextInputAction.next,
                     controller: controller,
-                    style: TextStyle(fontSize: ScreenUtil().setSp(18)),
+                    style: TextStyle(
+                      fontSize: ScreenUtil().setSp(28),
+                      decorationColor: Colors.white,
+                    ),
                     decoration: InputDecoration(
-                      hintText: "请输入密码",
+                      hintText: hintText,
                       fillColor: Colors.white,
                       filled: true,
                       border: InputBorder.none,
@@ -137,16 +140,31 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Text("注册",
-
+          GestureDetector(
+            child: Text("注册",
+                style: TextStyle(
+                  fontSize: ScreenUtil().setSp(28),
+                  color: Color.fromARGB(255, 120, 206, 253),
+                  decorationColor: Colors.white,
+                )),
+            onTap: () {
+              print("点击了注册按钮");
+            },
+          ),
+          GestureDetector(
+            child: Text(
+              "忘记密码",
               style: TextStyle(
-                  fontSize: ScreenUtil().setSp(18),
-                  color: Color.fromARGB(255, 120, 206, 253))),
-          Text(
-            "忘记密码",
-            style: TextStyle(
-                fontSize: ScreenUtil().setSp(18),
-                color: Color.fromARGB(255, 120, 206, 253)),
+                fontSize: ScreenUtil().setSp(28),
+                color: Color.fromARGB(255, 120, 206, 253),
+                decorationColor: Colors.white,
+              ),
+            ),
+            onTap: () {
+              print("点击了忘记密码按钮");
+              NavigatorUtils.navigatorRouterByName(
+                  context, NavigatorUtils.changePasswordPageKey);
+            },
           ),
         ],
       ),
@@ -162,7 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
               maxLines: 1,
               style: TextStyle(
                 color: Color.fromARGB(255, 55, 152, 216),
-                fontSize: 31,
+                fontSize: ScreenUtil().setSp(61),
                 decorationColor: Colors.white,
               ))),
     );
@@ -176,14 +194,17 @@ class _MyHomePageState extends State<MyHomePage> {
         width: ScreenUtil().setWidth(650),
         height: ScreenUtil().setHeight(80),
         child: RaisedButton(
-          child: Text("登录", style: TextStyle(fontSize: ScreenUtil().setSp(20))),
+          child: Text("登录", style: TextStyle(fontSize: ScreenUtil().setSp(30))),
           color: Color.fromARGB(255, 120, 206, 253),
           colorBrightness: Brightness.dark,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(6))),
           //点击事件
           onPressed: () {
-            checkInfo();
+            if (checkInfo()) {
+              NavigatorUtils.navigatorRouterByName(
+                  context, NavigatorUtils.homePageKey);
+            }
           },
         ),
       ),
@@ -191,27 +212,28 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   //检查必填项
-  checkInfo() {
+  bool checkInfo() {
     if ("" == accountController.text) {
-      showMessageDialog("账号不能为空！");
-      return;
+      showToast('账号不能为空！');
+      return false;
     }
 
     if ("" == passwordController.text) {
-      showMessageDialog("密码不能为空！");
-      return;
+      showToast('密码不能为空！');
+      return false;
     }
 
-    showCupertinoDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return CupertinoAlertDialog(
-//            title: Text("提示"),
-            content: CupertinoActivityIndicator(
-              radius: 20,
-            ),
-          );
-        });
+    return true;
+//    showCupertinoDialog(
+//        context: context,
+//        builder: (BuildContext context) {
+//          return CupertinoAlertDialog(
+////            title: Text("提示"),
+//            content: CupertinoActivityIndicator(
+//              radius: 20,
+//            ),
+//          );
+//        });
   }
 
   /**

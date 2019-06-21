@@ -19,9 +19,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^0.1.2
+  cupertino_icons: 0.1.2
   #屏幕适配
-  flutter_screenutil: ^0.5.2
+  flutter_screenutil: 0.5.2
+  #自定义toast
+  oktoast: 2.1.8
 
 
 dev_dependencies:
