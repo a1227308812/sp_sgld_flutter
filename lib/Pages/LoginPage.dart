@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sp_sgld_flutter/utils/NavigatorUtils.dart';
 import 'package:oktoast/oktoast.dart';
+
 /**
  * Created by ZWP on 2019/6/20 18:16.
  * 描述：登录页面
@@ -108,6 +109,15 @@ class _LoginPageState extends State<LoginPage> {
                     obscureText: b,
                     textInputAction:
                         b ? TextInputAction.done : TextInputAction.next,
+                    //软键盘的点击确定监听回调
+                    onSubmitted: (String text) {
+                      if (b) {
+                        if (checkInfo()) {
+                          NavigatorUtils.navigatorRouterByName(
+                              context, NavigatorUtils.homePageKey);
+                        }
+                      }
+                    },
                     controller: controller,
                     style: TextStyle(
                       fontSize: ScreenUtil().setSp(28),
@@ -181,7 +191,7 @@ class _LoginPageState extends State<LoginPage> {
               style: TextStyle(
                 color: Color.fromARGB(255, 55, 152, 216),
                 fontSize: ScreenUtil().setSp(61),
-                decorationColor: Colors.white,
+                decoration: TextDecoration.none,
               ))),
     );
   }

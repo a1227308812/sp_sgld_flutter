@@ -4,6 +4,7 @@ import 'package:sp_sgld_flutter/Pages/HomePage.dart';
 import 'package:sp_sgld_flutter/Pages/LoginPage.dart';
 
 import 'package:sp_sgld_flutter/Pages/ItemClaimPage.dart';
+import 'package:sp_sgld_flutter/Pages/RegulatoryInformationEntryPage.dart';
 /**
  * Created by ZWP on 2019/6/20 18:17.
  * 描述：路由工具类
@@ -28,7 +29,7 @@ class NavigatorUtils {
     changePasswordPageKey: (context) => ChangePassword(),
 
     itemClaimPageKey: (context) => ItemCliamPage(),
-    regulatoryInformationEntryPageKey: (context) => ChangePassword(),
+    regulatoryInformationEntryPageKey: (context) => RegulatoryInformationEntryPage(),
     rectificationInformationEntryPageKey: (context) => ChangePassword(),
     integratedQueryPageKey: (context) => ChangePassword(),
   };

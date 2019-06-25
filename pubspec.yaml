@@ -24,7 +24,10 @@ dependencies:
   flutter_screenutil: 0.5.2
   #自定义toast
   oktoast: 2.1.8
-
+  #刷新列表
+  flutter_easyrefresh: 1.2.7
+  #页面加载效果库
+  flutter_spinkit: 3.1.0
 
 dev_dependencies:
   flutter_test:

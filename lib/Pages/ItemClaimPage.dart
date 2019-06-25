@@ -61,106 +61,123 @@ class _ItemCliamPageState extends State<ItemCliamPage> {
           );
         },
         itemBuilder: (BuildContext context, int index) {
-          return Center(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(color: Color(0x333f78b9), blurRadius: 1),
-                ],
-              ),
-              constraints:
-                  BoxConstraints(minHeight: ScreenUtil().setHeight(153)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(right: ScreenUtil().setWidth(25)),
-                    color: Color(0xff4791e5),
-                    width: ScreenUtil().setWidth(7),
-                    height: ScreenUtil().setHeight(153),
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          ItemClaimInfo[index].title,
-                          style: TextStyle(
-                            color: Color(0xff373b40),
-                            fontSize: ScreenUtil().setSp(30),
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Container(
-                          margin:
-                              EdgeInsets.only(top: ScreenUtil().setHeight(25)),
-                          child: Text(
-                            '信用代码：' + ItemClaimInfo[index].depNum,
+          return GestureDetector(
+            onTap: () {
+              showToast('跳转详情');
+            },
+            child: Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(color: Color(0x333f78b9), blurRadius: 1),
+                  ],
+                ),
+                constraints:
+                    BoxConstraints(minHeight: ScreenUtil().setHeight(153)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(right: ScreenUtil().setWidth(25)),
+                      color: Color(0xff4791e5),
+                      width: ScreenUtil().setWidth(7),
+                      height: ScreenUtil().setHeight(153),
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            ItemClaimInfo[index].title,
                             style: TextStyle(
-                              color: Color(0xffa0a4a9),
+                              color: Color(0xff373b40),
                               fontSize: ScreenUtil().setSp(30),
                             ),
-                            maxLines: 1,
+                            maxLines: 2,
                             overflow: TextOverflow.ellipsis,
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                                top: ScreenUtil().setHeight(25)),
+                            child: Text(
+                              '信用代码：' + ItemClaimInfo[index].depNum,
+                              style: TextStyle(
+                                color: Color(0xffa0a4a9),
+                                fontSize: ScreenUtil().setSp(30),
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: () {
+                            showToast('录入');
+                          },
+                          child: InkWell(
+                            child: Container(
+                              width: ScreenUtil().setWidth(88),
+                              height: ScreenUtil().setWidth(88),
+                              margin: EdgeInsets.only(
+                                  left: ScreenUtil().setWidth(15)),
+                              alignment: Alignment.center,
+                              decoration: ShapeDecoration(
+                                  shape: CircleBorder(),
+                                  color: Color(0xff78cefd),
+                                  shadows: [
+                                    BoxShadow(
+                                        color: Colors.grey,
+                                        offset: Offset(0, 0),
+                                        blurRadius: 2.0)
+                                  ]),
+                              child: Text(
+                                '录入',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: ScreenUtil().setSp(24)),
+                              ),
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            showToast('修改');
+                          },
+                          child: Container(
+                            width: ScreenUtil().setWidth(88),
+                            height: ScreenUtil().setWidth(88),
+                            margin: EdgeInsets.only(
+                                left: ScreenUtil().setWidth(11),
+                                right: ScreenUtil().setWidth(31)),
+                            alignment: Alignment.center,
+                            decoration: ShapeDecoration(
+                                shape: CircleBorder(),
+                                color: Color(0xff62e5e5),
+                                shadows: [
+                                  BoxShadow(
+                                      color: Colors.grey,
+                                      offset: Offset(0, 0),
+                                      blurRadius: 2.0)
+                                ]),
+                            child: Text(
+                              '修改',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: ScreenUtil().setSp(24)),
+                            ),
                           ),
                         ),
                       ],
                     ),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Container(
-                        width: ScreenUtil().setWidth(88),
-                        height: ScreenUtil().setWidth(88),
-                        margin:
-                            EdgeInsets.only(left: ScreenUtil().setWidth(15)),
-                        alignment: Alignment.center,
-                        decoration: ShapeDecoration(
-                            shape: CircleBorder(),
-                            color: Color(0xff78cefd),
-                            shadows: [
-                              BoxShadow(
-                                  color: Colors.grey,
-                                  offset: Offset(0, 0),
-                                  blurRadius: 2.0)
-                            ]),
-                        child: Text(
-                          '录入',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: ScreenUtil().setSp(24)),
-                        ),
-                      ),
-                      Container(
-                        width: ScreenUtil().setWidth(88),
-                        height: ScreenUtil().setWidth(88),
-                        margin: EdgeInsets.only(
-                            left: ScreenUtil().setWidth(11),
-                            right: ScreenUtil().setWidth(31)),
-                        alignment: Alignment.center,
-                        decoration: ShapeDecoration(
-                            shape: CircleBorder(),
-                            color: Color(0xff62e5e5),
-                            shadows: [
-                              BoxShadow(
-                                  color: Colors.grey,
-                                  offset: Offset(0, 0),
-                                  blurRadius: 2.0)
-                            ]),
-                        child: Text(
-                          '修改',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: ScreenUtil().setSp(24)),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );
