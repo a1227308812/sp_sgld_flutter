@@ -27,6 +27,8 @@ class ClaimInfo {
 class _ItemCliamListPageState extends State<ItemCliamListPage> {
   static int pageNum = 0;
   List<ClaimInfo> itemClaimInfo = List();
+  GlobalKey<EasyRefreshState> easyRefreshKey = GlobalKey<EasyRefreshState>();
+  bool hasNextPage = true;
 
   @override
   void initState() {
@@ -38,7 +40,6 @@ class _ItemCliamListPageState extends State<ItemCliamListPage> {
   Widget build(BuildContext context) {
     print('build');
     // TODO: implement build
-    InfiniteListView infiniteListView;
     return Scaffold(
       backgroundColor: Color(0xfff7f7f9),
       appBar: AppBar(
@@ -49,9 +50,11 @@ class _ItemCliamListPageState extends State<ItemCliamListPage> {
         padding: EdgeInsets.only(
             top: ScreenUtil().setHeight(20),
             bottom: ScreenUtil().setHeight(20)),
+        easyRefreshKey: easyRefreshKey,
         data: itemClaimInfo,
         hasSeparator: true,
-        firstRefresh: false,
+        firstRefresh: true,
+        hasNextPage: hasNextPage,
         refreshCallback: () {
           print('refreshCallback');
           pageNum = 0;
@@ -68,7 +71,7 @@ class _ItemCliamListPageState extends State<ItemCliamListPage> {
         loadMoreCallBack: () {
           print('loadMoreCallBack');
           pageNum++;
-          if (infiniteListView.hasNextPage) {
+          if (hasNextPage) {
             //初始化数据
             itemClaimInfo
               ..add(ClaimInfo('成都建筑有限公司' + pageNum.toString(), '00524554845'))
@@ -78,7 +81,7 @@ class _ItemCliamListPageState extends State<ItemCliamListPage> {
             setState(() {
               if (pageNum >= 2) {
                 print('setState');
-                infiniteListView.hasNextPage = false;
+                hasNextPage = false;
               }
             });
           }

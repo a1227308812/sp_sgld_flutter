@@ -48,8 +48,7 @@ class InfiniteListView extends StatefulWidget {
   IndexedWidgetBuilder separatorBuilder;
 
   //刷新控件的key
-  GlobalKey<EasyRefreshState> easyRefreshKey =
-      new GlobalKey<EasyRefreshState>();
+  GlobalKey<EasyRefreshState> easyRefreshKey;
 
   //头部key
   GlobalKey<RefreshHeaderState> _headerKey = GlobalKey<RefreshHeaderState>();
@@ -60,6 +59,7 @@ class InfiniteListView extends StatefulWidget {
   //@required 表示必填
   InfiniteListView({
     @required this.data,
+    @required this.easyRefreshKey,
     this.pageSize: 15,
     this.hasNextPage: true,
     this.hasSeparator: false,
@@ -109,14 +109,14 @@ class InfiniteListState extends State<InfiniteListView> {
                   );
                 },
           itemCount: widget.data.length),
-      onRefresh: widget.refreshCallback,
-      loadMore: widget.loadMoreCallBack,
-//      onRefresh: () async {
-//        widget.refreshCallback();
-//      },
-//      loadMore: () async {
-//        widget.loadMoreCallBack();
-//      },
+//      onRefresh: widget.refreshCallback,
+//      loadMore: widget.loadMoreCallBack,
+      onRefresh: () async {
+        widget.refreshCallback();
+      },
+      loadMore: () async {
+        widget.loadMoreCallBack();
+      },
       firstRefresh: widget.firstRefresh,
       //第一次进入是的加载效果控件
       firstRefreshWidget: widget.firstRefresh

@@ -3,7 +3,7 @@ import 'package:sp_sgld_flutter/Pages/ChangePaswordPage.dart';
 import 'package:sp_sgld_flutter/Pages/HomePage.dart';
 import 'package:sp_sgld_flutter/Pages/LoginPage.dart';
 
-import 'package:sp_sgld_flutter/Pages/ItemClaimPage.dart';
+import 'package:sp_sgld_flutter/Pages/ItemClaimPageList.dart';
 import 'package:sp_sgld_flutter/Pages/RegulatoryInformationEntryPage.dart';
 /**
  * Created by ZWP on 2019/6/20 18:17.
