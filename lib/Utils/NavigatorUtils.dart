@@ -28,8 +28,8 @@ class NavigatorUtils {
     homePageKey: (context) => HomePage(),
     changePasswordPageKey: (context) => ChangePassword(),
 
-    itemClaimPageKey: (context) => ItemCliamPage(),
-    regulatoryInformationEntryPageKey: (context) => RegulatoryInformationEntryPage(),
+    itemClaimPageKey: (context) => ItemCliamListPage(),
+    regulatoryInformationEntryPageKey: (context) => RegulatoryInformationEntryListPage(),
     rectificationInformationEntryPageKey: (context) => ChangePassword(),
     integratedQueryPageKey: (context) => ChangePassword(),
   };

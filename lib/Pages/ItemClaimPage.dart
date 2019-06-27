@@ -3,16 +3,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:async/async.dart';
+import 'package:sp_sgld_flutter/Widgets/InfiniteListView.dart';
 
 /**
  * Created by ZWP on 2019/6/20 18:14.
- * 描述：事项认领界面
+ * 描述：事项认领列表界面
  */
-class ItemCliamPage extends StatefulWidget {
+class ItemCliamListPage extends StatefulWidget {
   @override
-  State<ItemCliamPage> createState() {
+  State<ItemCliamListPage> createState() {
     // TODO: implement createState
-    return _ItemCliamPageState();
+    return _ItemCliamListPageState();
   }
 }
 
@@ -23,42 +24,64 @@ class ClaimInfo {
   ClaimInfo(this.title, this.depNum);
 }
 
-class _ItemCliamPageState extends State<ItemCliamPage> {
-  List<ClaimInfo> ItemClaimInfo = List()
-    ..add(ClaimInfo('成都建筑有限公司', '00524554845'))
-    ..add(ClaimInfo('成都建筑有限公司', '00524554845'))
-    ..add(ClaimInfo('成都建筑有限公司', '00524554845'))
-    ..add(ClaimInfo('成都建筑有限公司', '00524554845'))
-    ..add(ClaimInfo('成都建筑有限公司', '00524554845'))
-    ..add(ClaimInfo('成都建筑有限公司', '00524554845'))
-    ..add(ClaimInfo('成都建筑有限公司', '00524554845'))
-    ..add(ClaimInfo('成都建筑有限公司', '00524554845'))
-    ..add(ClaimInfo('成都建筑有限公司', '00524554845'))
-    ..add(ClaimInfo('成都建筑有限公司', '00524554845'))
-    ..add(ClaimInfo('成都建筑有限公司', '00524554845'))
-    ..add(ClaimInfo('成都建筑有限公司', '00524554845'))
-    ..add(ClaimInfo('成都建筑有限公司', '00524554845'))
-    ..add(ClaimInfo('成都建筑有限公司', '00524554845'))
-    ..add(ClaimInfo('成都建筑有限公司', '00524554845'));
+class _ItemCliamListPageState extends State<ItemCliamListPage> {
+  static int pageNum = 0;
+  List<ClaimInfo> itemClaimInfo = List();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    print('build');
     // TODO: implement build
+    InfiniteListView infiniteListView;
     return Scaffold(
       backgroundColor: Color(0xfff7f7f9),
       appBar: AppBar(
         title: Text('列表'),
         centerTitle: true,
       ),
-      body: ListView.separated(
+      body: InfiniteListView(
         padding: EdgeInsets.only(
             top: ScreenUtil().setHeight(20),
             bottom: ScreenUtil().setHeight(20)),
-        itemCount: ItemClaimInfo.length,
-        separatorBuilder: (BuildContext context, int index) {
-          return Container(
-            height: ScreenUtil().setHeight(18),
-          );
+        data: itemClaimInfo,
+        hasSeparator: true,
+        firstRefresh: false,
+        refreshCallback: () {
+          print('refreshCallback');
+          pageNum = 0;
+          itemClaimInfo.clear();
+          //初始化数据
+          itemClaimInfo
+            ..add(ClaimInfo('成都建筑有限公司' + pageNum.toString(), '00524554845'))
+            ..add(ClaimInfo('成都建筑有限公司' + pageNum.toString(), '00524554845'))
+            ..add(ClaimInfo('成都建筑有限公司' + pageNum.toString(), '00524554845'))
+            ..add(ClaimInfo('成都建筑有限公司' + pageNum.toString(), '00524554845'))
+            ..add(ClaimInfo('成都建筑有限公司' + pageNum.toString(), '00524554845'));
+          setState(() {});
+        },
+        loadMoreCallBack: () {
+          print('loadMoreCallBack');
+          pageNum++;
+          if (infiniteListView.hasNextPage) {
+            //初始化数据
+            itemClaimInfo
+              ..add(ClaimInfo('成都建筑有限公司' + pageNum.toString(), '00524554845'))
+              ..add(ClaimInfo('成都建筑有限公司' + pageNum.toString(), '00524554845'))
+              ..add(ClaimInfo('成都建筑有限公司' + pageNum.toString(), '00524554845'))
+              ..add(ClaimInfo('成都建筑有限公司' + pageNum.toString(), '00524554845'));
+            setState(() {
+              if (pageNum >= 2) {
+                print('setState');
+                infiniteListView.hasNextPage = false;
+              }
+            });
+          }
         },
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
@@ -91,7 +114,7 @@ class _ItemCliamPageState extends State<ItemCliamPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            ItemClaimInfo[index].title,
+                            itemClaimInfo[index].title,
                             style: TextStyle(
                               color: Color(0xff373b40),
                               fontSize: ScreenUtil().setSp(30),
@@ -103,7 +126,7 @@ class _ItemCliamPageState extends State<ItemCliamPage> {
                             margin: EdgeInsets.only(
                                 top: ScreenUtil().setHeight(25)),
                             child: Text(
-                              '信用代码：' + ItemClaimInfo[index].depNum,
+                              '信用代码：' + itemClaimInfo[index].depNum,
                               style: TextStyle(
                                 color: Color(0xffa0a4a9),
                                 fontSize: ScreenUtil().setSp(30),
@@ -180,6 +203,11 @@ class _ItemCliamPageState extends State<ItemCliamPage> {
                 ),
               ),
             ),
+          );
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return Container(
+            height: ScreenUtil().setHeight(18),
           );
         },
       ),

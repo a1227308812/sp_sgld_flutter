@@ -33,63 +33,9 @@ class MyApp extends StatelessWidget {
         ),
         //注册路由表
         routes: NavigatorUtils.router,
-//        home: LoginPage(),
-        home: InfiniteListView(
-          data: List<String>(10),
-          hasSeparator: true,
-          firstRefresh: false,
-          refreshCallback: () async {
-            print('refreshCallback');
-          },
-          loadMoreCallBack: () async {
-            print('loadMoreCallBack');
-          },
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-              color: Colors.red,
-              height: 100,
-            );
-          },
-          separatorBuilder: (BuildContext context, int index) {
-            return Container(
-              color: Colors.white,
-              height: 30,
-            );
-          },
-          firstRefreshWidget: _getfirstRefreshWidget(context),
-        ),
+        home: LoginPage(),
       ),
     );
   }
 
-  _getfirstRefreshWidget(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      color: Colors.black12,
-      child: Center(
-          child: Container(
-        color: Color(0xffd9d9d9),
-        width: 500,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              width: 80.0,
-              height: 80.0,
-              child: SpinKitCubeGrid(
-                color: Theme.of(context).primaryColor,
-                size: 70.0,
-              ),
-            ),
-            Text(
-              "数据加载中...",
-              style: Config.textStyleDef.apply(color: Colors.grey),
-            ),
-          ],
-        ),
-      )),
-    );
-  }
 }
