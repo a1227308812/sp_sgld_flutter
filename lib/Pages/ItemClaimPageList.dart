@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:async/async.dart';
+import 'package:sp_sgld_flutter/Common/http/Api.dart';
+import 'package:sp_sgld_flutter/Common/http/BasicNetService.dart';
+import 'package:sp_sgld_flutter/Common/modle/UserInfo.dart';
 import 'package:sp_sgld_flutter/Widgets/InfiniteListView.dart';
+import 'package:sp_sgld_flutter/Common/local/LocalStorage.dart';
+import 'package:sp_sgld_flutter/Common/local/LocalStorageKey.dart';
+import 'dart:convert';
+import 'package:sp_sgld_flutter/Common/config/Config.dart';
 
 /**
  * Created by ZWP on 2019/6/20 18:14.
@@ -38,7 +44,6 @@ class _ItemCliamListPageState extends State<ItemCliamListPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('build');
     // TODO: implement build
     return Scaffold(
       backgroundColor: Color(0xfff7f7f9),
@@ -55,8 +60,9 @@ class _ItemCliamListPageState extends State<ItemCliamListPage> {
         hasSeparator: true,
         firstRefresh: true,
         hasNextPage: hasNextPage,
-        refreshCallback: () {
+        refreshCallback: () async {
           print('refreshCallback');
+          await getSeverceData();
           pageNum = 0;
           itemClaimInfo.clear();
           //初始化数据
@@ -215,5 +221,21 @@ class _ItemCliamListPageState extends State<ItemCliamListPage> {
         },
       ),
     );
+  }
+
+  void getSeverceData() async {
+    //todo 获取登录人员id
+    String userJson =
+        (await LocalStorage.getString(LocalStorageKey.user)) ?? "";
+    UserInfo userInfo = UserInfo.fromJson(json.decode(userJson));
+    var userId = userInfo?.id;
+    Map parms = {
+      'userId': userId,
+      'pageSize': Config.pageSize,
+      'pageNum': pageNum
+    };
+    ResultData resultData = await BasicNetService()
+        .post(Api.listPagedSuperBuspushForClaim, params: parms);
+    print(resultData);
   }
 }

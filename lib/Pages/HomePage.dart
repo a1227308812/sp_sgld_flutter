@@ -2,7 +2,13 @@ import 'package:oktoast/oktoast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sp_sgld_flutter/Common/local/LocalStorage.dart';
+import 'package:sp_sgld_flutter/Common/modle/UserInfo.dart';
 import 'package:sp_sgld_flutter/Utils/NavigatorUtils.dart';
+import 'dart:convert';
+import 'package:sp_sgld_flutter/Common/http/BasicNetService.dart';
+import 'package:sp_sgld_flutter/Common/http/Api.dart';
+
 /**
  * Created by ZWP on 2019/6/20 18:16.
  * 描述：主页
@@ -15,8 +21,12 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+  String menuType;
+
   @override
   Widget build(BuildContext context) {
+    //获取菜单列表
+    getMenuList();
     return Scaffold(
       appBar: AppBar(
         title: Text('经开区审管联动'),
@@ -64,10 +74,10 @@ class HomePageState extends State<HomePage> {
         if (index == 0) {
           NavigatorUtils.navigatorRouterByName(
               context, NavigatorUtils.itemClaimPageKey);
-        } else if (index == 0) {
+        } else if (index == 1) {
           NavigatorUtils.navigatorRouterByName(
               context, NavigatorUtils.regulatoryInformationEntryPageKey);
-        } else if (index == 0) {
+        } else if (index == 2) {
           NavigatorUtils.navigatorRouterByName(
               context, NavigatorUtils.rectificationInformationEntryPageKey);
         } else {
@@ -129,5 +139,19 @@ class HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  void getMenuList() async {
+    await getMenuType();
+    ResultData resultData = await BasicNetService().post(Api.listDataDic,
+        params: {'type': this.menuType});
+    print(resultData);
+  }
+
+  void getMenuType() async {
+    String userJson = await LocalStorage.getString(LocalStorageKey.user);
+    UserInfo userInfo = UserInfo.fromJson(json.decode(userJson));
+    menuType = 'superviseAppMenu' + userInfo.depType;
+    print(menuType);
   }
 }

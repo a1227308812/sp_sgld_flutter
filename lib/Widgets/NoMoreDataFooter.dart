@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 
-import '../CommonConfig.dart';
+import 'package:sp_sgld_flutter/Common/config/Config.dart';
 
 class NoMoreDataFooter extends RefreshFooter {
   // 提示加载文字

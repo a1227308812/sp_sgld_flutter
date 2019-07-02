@@ -7,7 +7,7 @@ import 'package:sp_sgld_flutter/utils/NavigatorUtils.dart';
 import 'package:sp_sgld_flutter/Pages/LoginPage.dart';
 import 'package:oktoast/oktoast.dart';
 
-import 'CommonConfig.dart';
+import 'package:sp_sgld_flutter/Common/config/Config.dart';
 /**
  * Created by ZWP on 2019/6/25 18:09.
  * 描述：项目入口 类似于android的application

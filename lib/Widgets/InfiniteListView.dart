@@ -5,14 +5,12 @@ export 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:oktoast/oktoast.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/ball_pulse_footer.dart';
 import 'package:flutter_easyrefresh/ball_pulse_header.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../CommonConfig.dart';
-import 'NoMoreDataFooter.dart';
+import 'package:sp_sgld_flutter/Common/config/Config.dart';
 
 class InfiniteListView extends StatefulWidget {
   EdgeInsetsGeometry padding;
@@ -50,11 +48,7 @@ class InfiniteListView extends StatefulWidget {
   //刷新控件的key
   GlobalKey<EasyRefreshState> easyRefreshKey;
 
-  //头部key
-  GlobalKey<RefreshHeaderState> _headerKey = GlobalKey<RefreshHeaderState>();
 
-  //底部key
-  GlobalKey<RefreshFooterState> _footerKey = GlobalKey<RefreshFooterState>();
 
   //@required 表示必填
   InfiniteListView({
@@ -79,6 +73,12 @@ class InfiniteListView extends StatefulWidget {
 }
 
 class InfiniteListState extends State<InfiniteListView> {
+  //头部key
+  GlobalKey<RefreshHeaderState> _headerKey = GlobalKey<RefreshHeaderState>();
+
+  //底部key
+  GlobalKey<RefreshFooterState> _footerKey = GlobalKey<RefreshFooterState>();
+
   @override
   void initState() {
     super.initState();
@@ -88,8 +88,9 @@ class InfiniteListState extends State<InfiniteListView> {
   Widget build(BuildContext context) {
     Widget listWidget = EasyRefresh(
       key: widget.easyRefreshKey,
-      refreshHeader: BallPulseHeader(key: widget._headerKey),
-      refreshFooter: BallPulseFooter(key: widget._footerKey),
+      emptyWidget: _getEmptyWidget(),
+      refreshHeader: BallPulseHeader(key: _headerKey),
+      refreshFooter: BallPulseFooter(key: _footerKey),
       child: ListView.separated(
           padding: widget.padding,
           itemBuilder: widget.itemBuilder,
@@ -160,5 +161,9 @@ class InfiniteListState extends State<InfiniteListView> {
         ),
       )),
     );
+  }
+  //设置默认空布局
+  _getEmptyWidget() {
+    return Container();
   }
 }

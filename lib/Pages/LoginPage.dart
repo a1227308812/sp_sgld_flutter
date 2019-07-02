@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:sp_sgld_flutter/utils/NavigatorUtils.dart';
+import 'package:sp_sgld_flutter/Common/Http/Api.dart';
+import 'package:sp_sgld_flutter/Common/Http/BasicNetService.dart';
+import 'package:sp_sgld_flutter/Common/local/LocalStorage.dart';
+import 'package:sp_sgld_flutter/Common/modle/UserInfo.dart';
 import 'package:oktoast/oktoast.dart';
+import 'dart:convert';
+
+import 'package:sp_sgld_flutter/Utils/NavigatorUtils.dart';
 
 /**
  * Created by ZWP on 2019/6/20 18:16.
@@ -14,8 +20,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController accountController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
+  TextEditingController accountController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +33,8 @@ class _LoginPageState extends State<LoginPage> {
    * 根布局
    */
   _getContentWidget() {
+    accountController.value = TextEditingValue(text: 'scjgjjg001');
+    passwordController.value = TextEditingValue(text: '1');
     return Container(
       color: Colors.white,
       //滚动竖向排列布局
@@ -110,11 +118,28 @@ class _LoginPageState extends State<LoginPage> {
                     textInputAction:
                         b ? TextInputAction.done : TextInputAction.next,
                     //软键盘的点击确定监听回调
-                    onSubmitted: (String text) {
+                    onSubmitted: (String text) async {
                       if (b) {
                         if (checkInfo()) {
-                          NavigatorUtils.navigatorRouterByName(
-                              context, NavigatorUtils.homePageKey);
+                          //获取登录信息
+                          ResultData resultData = await BasicNetService()
+                              .post(Api.login, params: {
+                            'loginName': accountController.text,
+                            'password': passwordController.text
+                          });
+                          if (resultData.resultStatue) {
+                            UserInfo userInfo =
+                                UserInfo.fromJson(resultData.data ?? "");
+                            //缓存本地
+                            await LocalStorage.saveString(
+                                LocalStorageKey.user, json.encode(userInfo));
+                            await LocalStorage.saveString(
+                                LocalStorageKey.authKey, userInfo.authKey);
+                            NavigatorUtils.navigatorRouterByName(
+                                context, NavigatorUtils.homePageKey);
+                          } else {
+                            showToast(resultData.data);
+                          }
                         }
                       }
                     },
@@ -210,10 +235,26 @@ class _LoginPageState extends State<LoginPage> {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(6))),
           //点击事件
-          onPressed: () {
+          onPressed: () async {
             if (checkInfo()) {
-              NavigatorUtils.navigatorRouterByName(
-                  context, NavigatorUtils.homePageKey);
+              //获取登录信息
+              ResultData resultData = await BasicNetService().post(Api.login,
+                  params: {
+                    'loginName': accountController.text,
+                    'password': passwordController.text
+                  });
+              if (resultData.resultStatue) {
+                UserInfo userInfo = UserInfo.fromJson(resultData.data ?? "");
+                //缓存本地
+                await LocalStorage.saveString(
+                    LocalStorageKey.user, json.encode(userInfo));
+                await LocalStorage.saveString(
+                    LocalStorageKey.authKey, userInfo.authKey);
+                NavigatorUtils.navigatorRouterByName(
+                    context, NavigatorUtils.homePageKey);
+              } else {
+                showToast(resultData.data);
+              }
             }
           },
         ),

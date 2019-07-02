@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:sp_sgld_flutter/utils/NavigatorUtils.dart';
+import 'package:sp_sgld_flutter/Utils/NavigatorUtils.dart';
+
 /**
  * Created by ZWP on 2019/6/20 18:17.
  * 描述：修改密码界面
