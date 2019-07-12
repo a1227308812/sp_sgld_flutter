@@ -24,8 +24,8 @@ class InfiniteListView extends StatefulWidget {
   //是否还有下一页  默认true
   bool hasNextPage;
 
-  //是否显示分割线 默认false
-  bool hasSeparator;
+//  //是否显示分割线 默认false
+//  bool hasSeparator;
 
   //是否开启控件第一次进入就触发刷新 默认true
   bool firstRefresh;
@@ -48,15 +48,13 @@ class InfiniteListView extends StatefulWidget {
   //刷新控件的key
   GlobalKey<EasyRefreshState> easyRefreshKey;
 
-
-
   //@required 表示必填
   InfiniteListView({
     @required this.data,
     @required this.easyRefreshKey,
-    this.pageSize: 15,
+    this.pageSize: Config.pageSize,
     this.hasNextPage: true,
-    this.hasSeparator: false,
+//    this.hasSeparator: true,
     this.firstRefresh: true,
     @required this.itemBuilder,
     this.separatorBuilder,
@@ -95,14 +93,7 @@ class InfiniteListState extends State<InfiniteListView> {
           padding: widget.padding,
           itemBuilder: widget.itemBuilder,
           separatorBuilder: widget.separatorBuilder != null
-              ? widget.hasSeparator
-                  ? widget.separatorBuilder
-                  : (BuildContext context, int index) {
-                      return Container(
-                        color: Colors.transparent,
-                        height: 0,
-                      );
-                    }
+              ? widget.separatorBuilder
               : (BuildContext context, int index) {
                   return Container(
                     color: Colors.transparent,
@@ -110,14 +101,14 @@ class InfiniteListState extends State<InfiniteListView> {
                   );
                 },
           itemCount: widget.data.length),
-//      onRefresh: widget.refreshCallback,
-//      loadMore: widget.loadMoreCallBack,
-      onRefresh: () async {
-        widget.refreshCallback();
-      },
-      loadMore: () async {
-        widget.loadMoreCallBack();
-      },
+      onRefresh: widget.refreshCallback,
+      loadMore: widget.loadMoreCallBack,
+//      onRefresh: () async {
+//        widget.refreshCallback();
+//      },
+//      loadMore: () async {
+//        widget.loadMoreCallBack();
+//      },
       firstRefresh: widget.firstRefresh,
       //第一次进入是的加载效果控件
       firstRefreshWidget: widget.firstRefresh
@@ -162,6 +153,7 @@ class InfiniteListState extends State<InfiniteListView> {
       )),
     );
   }
+
   //设置默认空布局
   _getEmptyWidget() {
     return Container();

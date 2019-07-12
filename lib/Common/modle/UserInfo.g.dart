@@ -20,7 +20,7 @@ UserInfo _$UserInfoFromJson(Map<String, dynamic> json) {
       json['depId'] as int,
       json['jobNo'] as String,
       json['cloudDiskSize'] as int,
-      json['cloudDiskUsedSize'] as double,
+      (json['cloudDiskUsedSize'] as num)?.toDouble(),
       json['enabledName'] as String,
       (json['listRole'] as List)
           ?.map((e) =>
@@ -33,7 +33,7 @@ UserInfo _$UserInfoFromJson(Map<String, dynamic> json) {
       json['depType'] as String,
       json['regName'] as String,
       json['depPathName'] as String,
-      json['addPercent'] as double,
+      (json['addPercent'] as num)?.toDouble(),
       json['authKey'] as String,
       json['sid'] as String);
 }

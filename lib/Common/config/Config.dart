@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
  * 描述：一些公用参数
  */
 class Config {
-  static int pageSize = 15;
+   static const int pageSize = 15;
 
   static TextStyle textStyleDef = TextStyle(
 //      fontSize: ScreenUtil().setSp(8),

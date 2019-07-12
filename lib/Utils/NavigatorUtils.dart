@@ -3,8 +3,9 @@ import 'package:sp_sgld_flutter/Pages/ChangePaswordPage.dart';
 import 'package:sp_sgld_flutter/Pages/HomePage.dart';
 import 'package:sp_sgld_flutter/Pages/LoginPage.dart';
 
-import 'package:sp_sgld_flutter/Pages/ItemClaimPageList.dart';
-import 'package:sp_sgld_flutter/Pages/RegulatoryInformationEntryPage.dart';
+import 'package:sp_sgld_flutter/Pages/ItemClaimListPage.dart';
+import 'package:sp_sgld_flutter/Pages/RegulatoryEntry.dart';
+import 'package:sp_sgld_flutter/Pages/RegulatoryInformationEntryListPage.dart';
 
 /**
  * Created by ZWP on 2019/6/20 18:17.
@@ -19,8 +20,11 @@ class NavigatorUtils {
   static String itemClaimPageKey = '/itemClaim';
 
   //监管信息录入
-  static String regulatoryInformationEntryPageKey =
-      '/regulatoryInformationEntry';
+  static String regulatoryInformationEntryListPageKey =
+      '/regulatoryInformationEntryListPageKey';
+  //监管信息录入
+  static String regulatoryEntry =
+      '/regulatoryEntry';
 
   //整改信息录入
   static String rectificationInformationEntryPageKey =
@@ -33,12 +37,18 @@ class NavigatorUtils {
     //注册登录页面路由
     loginPageKey: (context) => LoginPage(),
     homePageKey: (context) => HomePage(),
+
     changePasswordPageKey: (context) => ChangePassword(),
 
     itemClaimPageKey: (context) => ItemCliamListPage(),
-    regulatoryInformationEntryPageKey: (context) =>
+
+    regulatoryInformationEntryListPageKey: (context) =>
         RegulatoryInformationEntryListPage(),
+    regulatoryEntry: (context) =>
+        RegulatoryEntryPage(),
+
     rectificationInformationEntryPageKey: (context) => ChangePassword(),
+
     integratedQueryPageKey: (context) => ChangePassword(),
   };
 
