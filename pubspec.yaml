@@ -35,6 +35,9 @@ dependencies:
   dio: 2.1.7
   #本地信息缓存
   shared_preferences: 0.5.3+1
+  multi_image_picker: any #图片选择
+  flutter_image_compress: any #图片压缩
+  flutter_advanced_networkimage: any #图片查看
 
 dev_dependencies:
   flutter_test:
