@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:sp_sgld_flutter/Utils/ChineseCupertinoLocalizations.dart';
 import 'package:sp_sgld_flutter/Widgets/InfiniteListView.dart';
 import 'package:sp_sgld_flutter/utils/NavigatorUtils.dart';
 import 'package:sp_sgld_flutter/Pages/LoginPage.dart';
@@ -36,13 +38,17 @@ class MyApp extends StatelessWidget {
         routes: NavigatorUtils.router,
         home: LoginPage(),
         //设置国际化范围Material风格和Widgets控件
-        localizationsDelegates: [                             //此处
+        localizationsDelegates: [
+          //下面两个是Cupertino widgets的delegate, 包含中文
+          ChineseCupertinoLocalizations.delegate, // 自定义的delegate
+          DefaultCupertinoLocalizations.delegate, // 目前只包含英文
+          //下面两个是Material widgets的delegate, 包含中文
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
         ],
         //设置支持的国际化种类
         supportedLocales: [                                   //此处
-          const Locale('zh','CH'),
+          const Locale('zh','CH'), // China
           const Locale('en','US'),
         ],
       ),

@@ -1,7 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:sp_sgld_flutter/Common/modle/SuperBuspush.dart';
 
 part 'Patrol.g.dart';
-
+/**
+ * Created by ZWP on 2019/7/23 14:09.
+ * 描述：行业监管库
+ */
 @JsonSerializable()
 class Patrol {
   /**
@@ -263,7 +267,7 @@ class Patrol {
       this.penaltyResult,
       this.apparitorId);
 
-//   SuperBuspush superBuspush;
+   SuperBuspush superBuspush;
 //
 //   List<RunNodeLog> listRunNodeLog;
 

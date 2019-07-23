@@ -191,47 +191,51 @@ class _ItemCliamListPageState extends State<ItemCliamListPage> {
   }
 
   initReceiveButtom(int index) {
-    Widget receiveButton = Container(
-      margin: EdgeInsets.only(
-          right: ScreenUtil().setWidth(30), left: ScreenUtil().setWidth(10)),
-      color: Colors.white,
-      width: ScreenUtil().setWidth(88),
-      height: ScreenUtil().setWidth(88),
-      child: FloatingActionButton(
-        onPressed: () {
-          /**
-           * 1、填充接收确认框
-           * 2、确认接收之后刷新列表数据
-           */
-          showCupertinoDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return CupertinoAlertDialog(
-                  title: Text('确认要接收吗？'),
-                  actions: <Widget>[
-                    CupertinoDialogAction(
-                      child: Text('取消'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                    CupertinoDialogAction(
-                      child: Text('确认'),
-                      onPressed: () {
-                        //发送接收操作给后台，提示完成认领
-                        _submitData(itemClaimInfo[index].id);
-                      },
-                    ),
-                  ],
-                );
-              });
-        },
-        backgroundColor: Color(0xff78cefd),
-        elevation: 3,
-        shape: CircleBorder(),
+    Widget receiveButton = GestureDetector(
+      onTap: () {
+        /**
+         * 1、填充接收确认框
+         * 2、确认接收之后刷新列表数据
+         */
+        showCupertinoDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return CupertinoAlertDialog(
+                title: Text('确认要接收吗？'),
+                actions: <Widget>[
+                  CupertinoDialogAction(
+                    child: Text('取消'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  CupertinoDialogAction(
+                    child: Text('确认'),
+                    onPressed: () {
+                      //发送接收操作给后台，提示完成认领
+                      _submitData(itemClaimInfo[index].id);
+                    },
+                  ),
+                ],
+              );
+            });
+      },
+      child: Container(
+        margin: EdgeInsets.only(
+            right: ScreenUtil().setWidth(30),
+            left: ScreenUtil().setWidth(10)),
+        alignment: Alignment.center,
+        width: ScreenUtil().setWidth(88),
+        height: ScreenUtil().setWidth(88),
+        decoration: ShapeDecoration(
+          shape: CircleBorder(),
+          color: Color(0xff78cefd),
+          shadows: [BoxShadow(color: Colors.grey,offset: Offset(1, 1),blurRadius: 3)],
+        ),
         child: Text('接收',
             style: TextStyle(
-                color: Colors.white, fontSize: ScreenUtil().setSp(24))),
+                color: Colors.white,
+                fontSize: ScreenUtil().setSp(24))),
       ),
     );
 

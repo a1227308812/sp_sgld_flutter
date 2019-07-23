@@ -15,19 +15,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:oktoast/oktoast.dart';
 
 /**
- * Created by ZWP on 2019/6/21 11:38.
- * 描述：监管信息录入列表界面
+ * Created by ZWP on 2019/7/19 10:58.
+ * 描述：整改信息录入列表界面
  */
-class RegulatoryInformationEntryListPage extends StatefulWidget {
+class RectificationInformationEntryListPage extends StatefulWidget {
   @override
-  State<RegulatoryInformationEntryListPage> createState() {
+  State<RectificationInformationEntryListPage> createState() {
     // TODO: implement createState
-    return RegulatoryInformationEntryState();
+    return RectificationInformationEntryState();
   }
 }
 
-class RegulatoryInformationEntryState
-    extends State<RegulatoryInformationEntryListPage> {
+class RectificationInformationEntryState
+    extends State<RectificationInformationEntryListPage> {
   List<Patrol> patrolList = List();
   GlobalKey<EasyRefreshState> easyRefreshKey = GlobalKey();
   bool hasNextPage = true;
@@ -37,7 +37,7 @@ class RegulatoryInformationEntryState
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: Text('监管信息')),
+      appBar: AppBar(centerTitle: true, title: Text('整改信息')),
       extendBody: true,
       body: InfiniteListView(
           padding: EdgeInsets.only(
@@ -123,8 +123,7 @@ class RegulatoryInformationEntryState
                 onTap: () {
                   //跳转录入页面
                   NavigatorUtils.navigatorRouterByName(
-                      context, NavigatorUtils.regulatoryEntryPageKey,
-                      arguments: patrolList[index].superBusId);
+                      context, NavigatorUtils.rectificationEntryPageKey);
                 },
                 child: Container(
                   margin: EdgeInsets.only(
@@ -136,12 +135,7 @@ class RegulatoryInformationEntryState
                   decoration: ShapeDecoration(
                     shape: CircleBorder(),
                     color: Color(0xff78cefd),
-                    shadows: [
-                      BoxShadow(
-                          color: Colors.grey,
-                          offset: Offset(1, 1),
-                          blurRadius: 3)
-                    ],
+                    shadows: [BoxShadow(color: Colors.grey,offset: Offset(1, 1),blurRadius: 3)],
                   ),
                   child: Text('录入',
                       style: TextStyle(
@@ -172,7 +166,7 @@ class RegulatoryInformationEntryState
       'pageNum': pageNum
     };
     ResultData resultData =
-        await BasicNetService().post(Api.listPagedPatrol, params: parms);
+        await BasicNetService().post(Api.listPagedMyReform, params: parms);
     if (resultData.resultStatue) {
       PageResult result = PageResult.fromJson(resultData.data);
       if (null != result) {

@@ -1,5 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'Business.dart';
+import 'RunNodeLog.dart';
+
 part 'SuperBuspush.g.dart';
 
 @JsonSerializable()
@@ -90,10 +93,10 @@ class SuperBuspush {
    */
   String claimUserName;
 
-//  /**
-//   * 办件信息
-//   */
-//   Business busienss;
+  /**
+   * 办件信息
+   */
+   Business busienss;
 
   /**
    * 申请人姓名
@@ -140,6 +143,7 @@ class SuperBuspush {
    */
   int patrolId;
 
+  //证件号码
   String no;
 
   /**
@@ -147,7 +151,8 @@ class SuperBuspush {
    */
   int acceptLimit;
 
-  //   List<RunNodeLog> listRunNodeLog;
+  //日志
+  List<RunNodeLog> listRunNodeLog;
 
   SuperBuspush(
       this.id,

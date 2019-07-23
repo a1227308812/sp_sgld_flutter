@@ -42,7 +42,10 @@ Patrol _$PatrolFromJson(Map<String, dynamic> json) {
       json['claimUserName'] as String,
       json['serviceObject'] as String,
       json['penaltyResult'] as String,
-      json['apparitorId'] as int);
+      json['apparitorId'] as int)
+    ..superBuspush = json['superBuspush'] == null
+        ? null
+        : SuperBuspush.fromJson(json['superBuspush'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$PatrolToJson(Patrol instance) => <String, dynamic>{
@@ -80,5 +83,6 @@ Map<String, dynamic> _$PatrolToJson(Patrol instance) => <String, dynamic>{
       'claimUserName': instance.claimUserName,
       'serviceObject': instance.serviceObject,
       'penaltyResult': instance.penaltyResult,
-      'apparitorId': instance.apparitorId
+      'apparitorId': instance.apparitorId,
+      'superBuspush': instance.superBuspush
     };

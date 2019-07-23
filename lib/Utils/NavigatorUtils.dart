@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sp_sgld_flutter/Pages/ChangePaswordPage.dart';
 import 'package:sp_sgld_flutter/Pages/HomePage.dart';
+import 'package:sp_sgld_flutter/Pages/IntegratedQueryDetail.dart';
+import 'package:sp_sgld_flutter/Pages/IntegratedQueryListPage.dart';
 import 'package:sp_sgld_flutter/Pages/LoginPage.dart';
 
 import 'package:sp_sgld_flutter/Pages/ItemClaimListPage.dart';
+import 'package:sp_sgld_flutter/Pages/RectificationEntry.dart';
+import 'package:sp_sgld_flutter/Pages/RectificationInformationEntryListPage.dart';
 import 'package:sp_sgld_flutter/Pages/RegulatoryEntry.dart';
 import 'package:sp_sgld_flutter/Pages/RegulatoryInformationEntryListPage.dart';
 
@@ -19,19 +23,24 @@ class NavigatorUtils {
   //事项认领页面
   static String itemClaimPageKey = '/itemClaim';
 
-  //监管信息录入
+  //监管信息录入列表
   static String regulatoryInformationEntryListPageKey =
       '/regulatoryInformationEntryListPageKey';
-  //监管信息录入
-  static String regulatoryEntry =
-      '/regulatoryEntry';
 
-  //整改信息录入
-  static String rectificationInformationEntryPageKey =
-      '/rectificationInformationEntry';
+  //监管信息录入详情
+  static String regulatoryEntryPageKey = '/regulatoryEntryPageKey';
+
+  //整改信息录入列表
+  static String rectificationInformationEntryListPageKey =
+      '/rectificationInformationEntryListPageKey';
+
+  //整改信息录入详情
+  static String rectificationEntryPageKey = '/rectificationEntryPageKey';
 
   //综合查询
-  static String integratedQueryPageKey = '/integratedQuery';
+  static String integratedQueryListPageKey = '/integratedQueryListPageKey';
+  //综合查询详情
+  static String integratedQueryDetailPageKey = '/integratedQueryDetailPageKey';
 
   static Map<String, WidgetBuilder> router = {
     //注册登录页面路由
@@ -44,16 +53,19 @@ class NavigatorUtils {
 
     regulatoryInformationEntryListPageKey: (context) =>
         RegulatoryInformationEntryListPage(),
-    regulatoryEntry: (context) =>
-        RegulatoryEntryPage(),
+    regulatoryEntryPageKey: (context) => RegulatoryEntryPage(),
 
-    rectificationInformationEntryPageKey: (context) => ChangePassword(),
+    rectificationInformationEntryListPageKey: (context) =>
+        RectificationInformationEntryListPage(),
+    rectificationEntryPageKey: (context) => RectificationEntryPage(),
 
-    integratedQueryPageKey: (context) => ChangePassword(),
+    integratedQueryListPageKey: (context) => IntegratedQueryListPage(),
+    integratedQueryDetailPageKey: (context) => IntegratedQueryDetail(),
   };
 
   //静态跳转
-  static navigatorRouterByName(BuildContext context, String pageKey,{ Object arguments}) {
+  static navigatorRouterByName(BuildContext context, String pageKey,
+      {Object arguments}) {
     return Navigator.pushNamed(context, pageKey, arguments: arguments);
   }
 

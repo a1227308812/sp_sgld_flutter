@@ -91,11 +91,15 @@ class HomePageState extends State<HomePage> {
             break;
           case 'rectificationInput': //整改信息录入
             NavigatorUtils.navigatorRouterByName(
-                context, NavigatorUtils.rectificationInformationEntryPageKey);
+                context, NavigatorUtils.rectificationInformationEntryListPageKey);
             break;
           case 'comprehensive': //综合查询
             NavigatorUtils.navigatorRouterByName(
-                context, NavigatorUtils.integratedQueryPageKey);
+                context, NavigatorUtils.integratedQueryListPageKey);
+            break;
+          case 'comprehensive': //综合查询
+            NavigatorUtils.navigatorRouterByName(
+                context, NavigatorUtils.integratedQueryListPageKey);
             break;
         }
       },

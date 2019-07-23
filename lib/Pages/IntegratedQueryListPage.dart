@@ -13,21 +13,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sp_sgld_flutter/Common/config/Config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:oktoast/oktoast.dart';
-
 /**
- * Created by ZWP on 2019/6/21 11:38.
- * 描述：监管信息录入列表界面
+ * Created by ZWP on 2019/7/19 16:41.
+ * 描述：综合查询列表界面
  */
-class RegulatoryInformationEntryListPage extends StatefulWidget {
+class IntegratedQueryListPage extends StatefulWidget {
   @override
-  State<RegulatoryInformationEntryListPage> createState() {
+  State<IntegratedQueryListPage> createState() {
     // TODO: implement createState
-    return RegulatoryInformationEntryState();
+    return IntegratedQueryState();
   }
 }
 
-class RegulatoryInformationEntryState
-    extends State<RegulatoryInformationEntryListPage> {
+class IntegratedQueryState
+    extends State<IntegratedQueryListPage> {
   List<Patrol> patrolList = List();
   GlobalKey<EasyRefreshState> easyRefreshKey = GlobalKey();
   bool hasNextPage = true;
@@ -35,9 +34,8 @@ class RegulatoryInformationEntryState
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: Text('监管信息')),
+      appBar: AppBar(centerTitle: true, title: Text('综合查询')),
       extendBody: true,
       body: InfiniteListView(
           padding: EdgeInsets.only(
@@ -119,30 +117,22 @@ class RegulatoryInformationEntryState
                   ],
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  //跳转录入页面
-                  NavigatorUtils.navigatorRouterByName(
-                      context, NavigatorUtils.regulatoryEntryPageKey,
-                      arguments: patrolList[index].superBusId);
-                },
-                child: Container(
-                  margin: EdgeInsets.only(
-                      right: ScreenUtil().setWidth(30),
-                      left: ScreenUtil().setWidth(10)),
-                  alignment: Alignment.center,
-                  width: ScreenUtil().setWidth(88),
-                  height: ScreenUtil().setWidth(88),
-                  decoration: ShapeDecoration(
-                    shape: CircleBorder(),
-                    color: Color(0xff78cefd),
-                    shadows: [
-                      BoxShadow(
-                          color: Colors.grey,
-                          offset: Offset(1, 1),
-                          blurRadius: 3)
-                    ],
-                  ),
+              Container(
+                margin: EdgeInsets.only(
+                    right: ScreenUtil().setWidth(30),
+                    left: ScreenUtil().setWidth(10)),
+                color: Colors.white,
+                width: ScreenUtil().setWidth(88),
+                height: ScreenUtil().setWidth(88),
+                child: FloatingActionButton(
+                  onPressed: () {
+                    //跳转录入页面
+                    NavigatorUtils.navigatorRouterByName(
+                        context, NavigatorUtils.integratedQueryDetailPageKey);
+                  },
+                  backgroundColor: Color(0xff78cefd),
+                  elevation: 3,
+                  shape: CircleBorder(),
                   child: Text('录入',
                       style: TextStyle(
                           color: Colors.white,

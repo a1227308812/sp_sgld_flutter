@@ -1,12 +1,16 @@
+import 'package:sp_sgld_flutter/Common/http/Api.dart';
+import 'package:sp_sgld_flutter/Common/http/BasicNetService.dart';
+import 'package:sp_sgld_flutter/Common/modle/Patrol.dart';
+import 'package:sp_sgld_flutter/Common/modle/SuperBuspush.dart';
 import 'package:sp_sgld_flutter/Utils/ImportLib.dart';
-import 'package:sp_sgld_flutter/Widgets/CustomBorder.dart';
+import 'package:sp_sgld_flutter/Widgets/LoaddingDialog.dart';
 import 'package:sp_sgld_flutter/Widgets/SingleRadio.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:flutter/services.dart';
 
 /**
  * Created by ZWP on 2019/7/11 17:31.
- * 描述：录入详情页面
+ * 描述：监管信息录入详情页面
  */
 class RegulatoryEntryPage extends StatefulWidget {
   //左边距
@@ -20,41 +24,56 @@ class RegulatoryEntryPage extends StatefulWidget {
 
   @override
   State<RegulatoryEntryPage> createState() {
-    print('RegulatoryEntryPage createState');
-    // TODO: implement createState
     return _RegulatoryEntryState();
   }
 }
 
 class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
-  var name = '张三';
-  var idCard = '511304xxxxxxxxxxxx';
-
-  //选择的检查日期
-  var checkDate = '2019/07/11';
-
-  //选择的期限整改日期
-  var treatmentDate = '2019/07/11';
-
-  //检查次数
-  var checkNum = '3';
-
   //检查结果
-  var checkResult = 0;
+  var checkResult = 1;
 
   //处理结果
-  var treatmentResult = 0;
+  var treatmentResult = 1;
 
-  //检查结果附件
-  List<Asset> checkUpfileList = List();
+  //公示范围
+  var showArea = 0;
 
-  //其他附件
-  List<Asset> otherUpfileList = List();
+  //检查日期
+  String checkDate = '';
+
+  //整改到期日期
+  String rectificationPreiodDate = '';
+
+//  //检查结果附件
+//  List<Asset> checkUpfileList = List();
+//
+//  //其他附件
+//  List<Asset> otherUpfileList = List();
+
+  //被检查人姓名
+  TextEditingController bjcrController = TextEditingController();
+
+  //身份证号码
+  TextEditingController sfzhController = TextEditingController();
+
+  //检测次数
+  TextEditingController jccsController = TextEditingController()
+    ..value = TextEditingValue(text: '本年度第5次检查');
+
+  //巡查人员
+  TextEditingController xcryController = TextEditingController()
+    ..value = TextEditingValue(text: '李四');
+
+  //检查结果说明
+  TextEditingController jcjgsmController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    print("_RegulatoryEntryState build");
+    //获取路由携带的参数
+    int superBusId = ModalRoute.of(context).settings.arguments;
+    if (null != superBusId) {
+      getInitData(superBusId);
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('监管信息录入'),
@@ -70,9 +89,12 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
           children: <Widget>[
             Flexible(
                 fit: FlexFit.tight,
-                child: FlatButton(onPressed: () {
-                  //todo 关闭页面
-                }, child: Text('取消'))),
+                child: FlatButton(
+                    onPressed: () {
+                      //关闭页面
+                      Navigator.pop(context);
+                    },
+                    child: Text('取消'))),
             Container(
               color: Colors.grey,
               height: double.infinity,
@@ -80,9 +102,14 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
             ),
             Flexible(
                 fit: FlexFit.tight,
-                child: FlatButton(onPressed: () {
-                  //todo 提交录入数据
-                }, child: Text('提交'))),
+                child: FlatButton(
+                    onPressed: () {
+                      //todo 提交录入数据
+                      if (checkInputInfo()) {
+                        submitData();
+                      }
+                    },
+                    child: Text('提交'))),
           ],
         ),
       ),
@@ -91,24 +118,34 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
           children: <Widget>[
             //分割区域
             spaceWidget(),
-            _getInfoItem(title: '被检查人：', hint: '请输入被检查人姓名', content: name),
-            _getInfoItem(title: '身份证号：', hint: '请输入身份证号码', content: idCard),
-            _getJCRQItem(title: '检查日期：', hint: '请选择检查日期', content: checkDate),
-            _getJCCSItem(title: '检查次数：', hint: '请输入检查次数', content: checkNum),
-            _getJCJGItem(title: '检查结果：', hint: '请输入检查次数', content: checkNum),
-            _getCLJGItem(title: '处理结果：', hint: '请选择处理结果', content: checkNum),
-            _getXCRYItem(title: '巡查人员：', hint: '请输入巡查人员名称', content: checkNum),
+            _getInfoItem(
+                title: '被检查人：', hint: '请输入被检查人姓名', controller: bjcrController),
+            _getInfoItem(
+                title: '身份证号：', hint: '请输入身份证号码', controller: sfzhController),
+            _getJCRQItem(title: '检查日期：', hint: '请选择检查日期'),
+            _getJCCSItem(
+                title: '检查次数：', hint: '请输入检查次数', controller: jccsController),
+            _getJCJGItem(title: '检查结果：'),
+            _getCLJGItem(title: '处理结果：'),
+            _getXCRYItem(
+                title: '巡查人员：', hint: '请输入巡查人员名称', controller: xcryController),
             //只有选择的期限整改才会有整改到期日期选择
-            treatmentResult == 1
-                ? _getZGDQRQItem(
-                    title: '整改到期日期：', hint: '请输入检查次数', content: treatmentDate)
+            treatmentResult == 2
+                ? _getZGDQRQItem(title: '整改到期日期：', hint: '请输入检查次数')
                 : Center(),
+//            //分割区域
+//            spaceWidget(),
+//            //公示范围
+//            getShowArea(title: '公示范围：'),
             //分割区域
             spaceWidget(),
-            //检查结果附件
-            buildJCJGJLBLayout(checkUpfileList),
-            //其他附件
-            buildotherUpfileLayout(otherUpfileList),
+            //检查结果输入框
+            _getJCJGSMItem(jcjgsmController),
+            //上传附件暂时不做
+//            //检查结果附件
+//            buildJCJGJLBLayout(checkUpfileList),
+//            //其他附件
+//            buildotherUpfileLayout(otherUpfileList),
             //分割区域
             spaceWidget(),
           ],
@@ -118,7 +155,10 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
   }
 
   _getInfoItem(
-      {String title, String hint, String content, bool isMandatory = true}) {
+      {String title,
+      String hint,
+      TextEditingController controller,
+      bool isMandatory = true}) {
     return Container(
       height: RegulatoryEntryPage.itemHeight,
       child: Column(
@@ -137,8 +177,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
                     child: TextField(
                       maxLines: 1,
                       textAlign: TextAlign.right,
-                      controller: TextEditingController.fromValue(
-                          TextEditingValue(text: '$content')),
+                      controller: controller,
                       decoration: InputDecoration(
                           hintText: '$hint', border: InputBorder.none),
                       style: TextStyle(decoration: TextDecoration.none),
@@ -159,7 +198,10 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
 
   //检查日期
   _getJCRQItem(
-      {String title, String hint, String content, bool isMandatory = true}) {
+      {String title,
+      String hint,
+      TextEditingController controller,
+      bool isMandatory = true}) {
     return Container(
       height: RegulatoryEntryPage.itemHeight,
       child: Column(
@@ -192,7 +234,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
                           left: ScreenUtil().setWidth(20),
                           right: RegulatoryEntryPage.itemMaginLeft),
                       child: Text(
-                        '$content',
+                        checkDate,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.right,
@@ -215,7 +257,10 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
 
   //检查次数
   _getJCCSItem(
-      {String title, String hint, String content, bool isMandatory = true}) {
+      {String title,
+      String hint,
+      TextEditingController controller,
+      bool isMandatory = true}) {
     return Container(
       height: RegulatoryEntryPage.itemHeight,
       child: Column(
@@ -235,8 +280,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
                     child: TextField(
                       maxLines: 1,
                       textAlign: TextAlign.right,
-                      controller: TextEditingController.fromValue(
-                          TextEditingValue(text: '本年度第$content次检查')),
+                      controller: controller,
                       decoration: InputDecoration(
                           hintText: '$hint', border: InputBorder.none),
                       style: TextStyle(decoration: TextDecoration.none),
@@ -256,8 +300,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
   }
 
   //检查结果
-  _getJCJGItem(
-      {String title, String hint, String content, bool isMandatory = true}) {
+  _getJCJGItem({String title, bool isMandatory = true}) {
     return Container(
       height: RegulatoryEntryPage.itemHeight,
       child: Column(
@@ -282,7 +325,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
                           child: SingleRadio(
                             title: '符合',
                             groupValue: checkResult,
-                            value: 0,
+                            value: 1,
                             selectRadio: (value) {
                               checkResult = value;
                               setState(() {});
@@ -293,7 +336,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
                           child: SingleRadio(
                             title: '基本符合',
                             groupValue: checkResult,
-                            value: 1,
+                            value: 2,
                             selectRadio: (value) {
                               checkResult = value;
                               setState(() {});
@@ -304,7 +347,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
                           child: SingleRadio(
                             title: '不符合',
                             groupValue: checkResult,
-                            value: 2,
+                            value: 3,
                             selectRadio: (value) {
                               checkResult = value;
                               setState(() {});
@@ -328,8 +371,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
   }
 
   //处理结果
-  _getCLJGItem(
-      {String title, String hint, String content, bool isMandatory = true}) {
+  _getCLJGItem({String title, bool isMandatory = true}) {
     return Container(
       height: RegulatoryEntryPage.itemHeight,
       child: Column(
@@ -354,7 +396,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
                           child: SingleRadio(
                             title: '通过',
                             groupValue: treatmentResult,
-                            value: 0,
+                            value: 1,
                             selectRadio: (value) {
                               treatmentResult = value;
                               setState(() {});
@@ -365,7 +407,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
                           child: SingleRadio(
                             title: '期限整改',
                             groupValue: treatmentResult,
-                            value: 1,
+                            value: 2,
                             selectRadio: (value) {
                               treatmentResult = value;
                               // todo 显示整改期限
@@ -377,7 +419,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
                           child: SingleRadio(
                             title: '移交执法',
                             groupValue: treatmentResult,
-                            value: 2,
+                            value: 3,
                             selectRadio: (value) {
                               treatmentResult = value;
                               setState(() {});
@@ -402,7 +444,10 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
 
   //巡查人员
   _getXCRYItem(
-      {String title, String hint, String content, bool isMandatory = true}) {
+      {String title,
+      String hint,
+      TextEditingController controller,
+      bool isMandatory = true}) {
     return Container(
       height: RegulatoryEntryPage.itemHeight,
       child: Column(
@@ -422,8 +467,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
                     child: TextField(
                       maxLines: 1,
                       textAlign: TextAlign.right,
-                      controller: TextEditingController.fromValue(
-                          TextEditingValue(text: '$content')),
+                      controller: controller,
                       decoration: InputDecoration(
                           hintText: '$hint', border: InputBorder.none),
                       style: TextStyle(decoration: TextDecoration.none),
@@ -443,8 +487,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
   }
 
   //整改到期日期
-  _getZGDQRQItem(
-      {String title, String hint, String content, bool isMandatory = true}) {
+  _getZGDQRQItem({String title, String hint, bool isMandatory = true}) {
     return Container(
       height: RegulatoryEntryPage.itemHeight,
       child: Column(
@@ -465,7 +508,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
                       ).then((selectDate) {
                         //设置选择的日期
                         print(selectDate.toIso8601String());
-                        this.treatmentDate =
+                        this.rectificationPreiodDate =
                             '${selectDate.year}-${selectDate.month}-${selectDate.day}';
                         setState(() {});
                       }).catchError((error) {
@@ -477,7 +520,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
                           left: ScreenUtil().setWidth(20),
                           right: RegulatoryEntryPage.itemMaginLeft),
                       child: Text(
-                        '$content',
+                        rectificationPreiodDate,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.right,
@@ -544,6 +587,198 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
       ),
     );
   }
+
+  //提交数据
+  void getInitData(int superBusId) async {
+    //弹出加载框
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext buildContext) {
+          return LoaddingDialog();
+        });
+    ResultData resultData =
+        await BasicNetService().post(Api.addPatrolPage, params: {
+      "superBusId": superBusId,
+    });
+    if (resultData.resultStatue) {
+      SuperBuspush superBuspush = SuperBuspush.fromJson(resultData.data);
+      if (null != superBuspush) {
+        bjcrController.value =
+            TextEditingValue(text: superBuspush.proposerName ?? '');
+        sfzhController.value = TextEditingValue(text: superBuspush.no ?? '');
+      }
+    }
+  }
+
+  //提交数据
+  void submitData() async {
+    //弹出加载框
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext buildContext) {
+          return LoaddingDialog();
+        });
+    ResultData resultData =
+        await BasicNetService().post(Api.addPatrol, params: {
+      "superBusId": 56, //
+      "businessId": "310",
+      "proposerName": bjcrController.text.trim(),
+      "patrolDate": checkDate, //检查日期
+      "patrolNum": jccsController.text.trim(), //检查次数
+      "patrolResult": checkResult, //检查结果 1.符合 2基本符合  3不符合
+      "treatmentResult": treatmentResult, //处理结果 1通过  2限期整改 3移交执法
+      "rummageName": xcryController.text.trim(),
+      "treatmentEndDate": rectificationPreiodDate, //整改到期日期
+      "patrolResultExplain": jcjgsmController.text.trim() //检查结果说明
+    });
+    if (resultData.resultStatue) {
+      //提交数据完成
+      Navigator.pop(context);
+    }
+  }
+
+  //检查结果说明
+  _getJCJGSMItem(TextEditingController textEditController,
+      {bool isMandatory = true}) {
+    String title = '检查结果说明';
+    List<Widget> widgetList = List();
+    //标题
+    widgetList.add(Row(
+      children: <Widget>[
+        buildTipView(isMandatory),
+        Container(
+          alignment: Alignment.centerLeft,
+          height: ScreenUtil().setHeight(80),
+          child: Text(title),
+        ),
+      ],
+    ));
+    //输入框
+    widgetList.add(Container(
+      width: double.infinity,
+      height: double.infinity,
+      margin: EdgeInsets.only(
+          left: ScreenUtil().setWidth(30),
+          right: ScreenUtil().setWidth(30),
+          bottom: ScreenUtil().setWidth(30)),
+      constraints: BoxConstraints(
+          maxHeight: ScreenUtil().setHeight(200),
+          minHeight: ScreenUtil().setHeight(100)),
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey, width: 1),
+          borderRadius: BorderRadius.all(Radius.circular(4))),
+      child: TextField(
+        controller: textEditController,
+        textAlign: TextAlign.start,
+        style: TextStyle(fontSize: ScreenUtil().setSp(30)),
+        maxLines: null,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: '请输入$title',
+          contentPadding: EdgeInsets.all(ScreenUtil().setHeight(10)),
+        ),
+      ),
+    ));
+    return Column(
+      children: widgetList,
+    );
+  }
+
+  //公示区域
+  getShowArea({String title, bool isMandatory = true}) {
+    return Container(
+      height: RegulatoryEntryPage.itemHeight,
+      child: Column(
+        children: <Widget>[
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                buildTipView(isMandatory),
+                Text('$title'),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(
+                        left: ScreenUtil().setWidth(10),
+                        right: RegulatoryEntryPage.itemMaginLeft),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Flexible(
+                          child: SingleRadio(
+                            title: '外部公示',
+                            groupValue: showArea,
+                            value: 0,
+                            selectRadio: (value) {
+                              showArea = value;
+                              setState(() {});
+                            },
+                          ),
+                        ),
+                        Flexible(
+                          child: SingleRadio(
+                            title: '内部公示',
+                            groupValue: showArea,
+                            value: 1,
+                            selectRadio: (value) {
+                              showArea = value;
+                              setState(() {});
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Divider(
+            height: 1,
+            color: Colors.grey,
+          )
+        ],
+      ),
+    );
+  }
+
+  bool checkInputInfo() {
+    if (bjcrController.text.trim().length <= 0) {
+      showToast('请填写被检查人姓名');
+      return false;
+    }
+    if (sfzhController.text.trim().length <= 0) {
+      showToast('请填写身份证号码');
+      return false;
+    }
+    if (checkDate.trim().length <= 0) {
+      showToast('请选择检查日期');
+      return false;
+    }
+    if (jccsController.text.trim().length <= 0) {
+      showToast('请填写检查次数');
+      return false;
+    }
+    if (xcryController.text.trim().length <= 0) {
+      showToast('请填写巡查人员');
+      return false;
+    }
+    if (treatmentResult == 2) {
+      if (rectificationPreiodDate.trim().length <= 0) {
+        showToast('请填写整改到期日期');
+        return false;
+      }
+    }
+    if (jcjgsmController.text.trim().length <= 0) {
+      showToast('检查结果说明不能为空');
+      return false;
+    }
+    return true;
+  }
 }
 
 class UpfileItemStateless extends StatelessWidget {
@@ -556,8 +791,6 @@ class UpfileItemStateless extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('JCJGJLBItemState build');
-    // TODO: implement build
     return UpfileItemStateful(list, type);
   }
 }
@@ -572,7 +805,6 @@ class UpfileItemStateful extends StatefulWidget {
 
   @override
   State<UpfileItemStateful> createState() {
-    // TODO: implement createState
     return UpfileItemState();
   }
 }
@@ -583,8 +815,6 @@ class UpfileItemState extends State<UpfileItemStateful> {
 
   @override
   Widget build(BuildContext context) {
-    print('JCJGJLBItemState build');
-    // TODO: implement build
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -682,7 +912,6 @@ class UpfileItemState extends State<UpfileItemStateful> {
                               right: ScreenUtil().setWidth(30),
                               child: GestureDetector(
                                   onTap: () {
-                                    print('删除');
                                     list.removeWhere((Asset checkAsset) =>
                                         checkAsset.name == asset.name);
                                     setState(() {});
@@ -722,10 +951,10 @@ class UpfileItemState extends State<UpfileItemStateful> {
         materialOptions: MaterialOptions(
           actionBarTitle: "",
           allViewTitle: "图片选择",
-          actionBarColor: "#BBDEFB",
+          actionBarColor: "#2196F3",
           actionBarTitleColor: "#ffffff",
           lightStatusBar: true,
-          statusBarColor: '#BBDEFB',
+          statusBarColor: '#2196F3',
           startInAllView: true,
           selectCircleStrokeColor: "#ffffff",
           selectionLimitReachedText: "你不能再选择更多图片了.",

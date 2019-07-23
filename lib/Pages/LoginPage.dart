@@ -236,9 +236,9 @@ class _LoginPageState extends State<LoginPage> {
               borderRadius: BorderRadius.all(Radius.circular(6))),
           //点击事件
           onPressed: () async {
-            NavigatorUtils.navigatorRouterByName(
-                context, NavigatorUtils.regulatoryEntry);
-            return;
+//            NavigatorUtils.navigatorRouterByName(
+//                context, NavigatorUtils.rectificationEntryPageKey);
+//            return;
             if (checkInfo()) {
               //获取登录信息
               ResultData resultData = await BasicNetService().post(Api.login,

@@ -33,7 +33,14 @@ SuperBuspush _$SuperBuspushFromJson(Map<String, dynamic> json) {
       json['patrolResult'] as String,
       json['patrolId'] as int,
       json['no'] as String,
-      json['acceptLimit'] as int);
+      json['acceptLimit'] as int)
+    ..busienss = json['busienss'] == null
+        ? null
+        : Business.fromJson(json['busienss'] as Map<String, dynamic>)
+    ..listRunNodeLog = (json['listRunNodeLog'] as List)
+        ?.map((e) =>
+            e == null ? null : RunNodeLog.fromJson(e as Map<String, dynamic>))
+        ?.toList();
 }
 
 Map<String, dynamic> _$SuperBuspushToJson(SuperBuspush instance) =>
@@ -53,6 +60,7 @@ Map<String, dynamic> _$SuperBuspushToJson(SuperBuspush instance) =>
       'depName': instance.depName,
       'userName': instance.userName,
       'claimUserName': instance.claimUserName,
+      'busienss': instance.busienss,
       'proposerName': instance.proposerName,
       'sdate': instance.sdate,
       'edate': instance.edate,
@@ -63,5 +71,6 @@ Map<String, dynamic> _$SuperBuspushToJson(SuperBuspush instance) =>
       'patrolResult': instance.patrolResult,
       'patrolId': instance.patrolId,
       'no': instance.no,
-      'acceptLimit': instance.acceptLimit
+      'acceptLimit': instance.acceptLimit,
+      'listRunNodeLog': instance.listRunNodeLog
     };
