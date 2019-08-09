@@ -205,6 +205,7 @@ class Business {
 
   /**
    * 申请人类别1：自然人2：法人
+   * 字典表地址：http://192.168.1.77:83/datadic/classes/datadic.xml
    */
 
   String serviceObject;
@@ -476,21 +477,22 @@ class Business {
 
   List<Card> listCard;
 
-  List<Supervise> listSupervise ;
+  List<Supervise> listSupervise;
 
-  List<ChargeRelation> listChargeRe ;
+  List<ChargeRelation> listChargeRe;
 
-  List<Delay> listDelay ;
+  List<Delay> listDelay;
 
-  List<Pause> listPause ;
-  List<Oncetell> listOncetell ;
+  List<Pause> listPause;
 
-  List<ItemLicenceModel> listItemLicenceModel ;
+  List<Oncetell> listOncetell;
+
+  List<ItemLicenceModel> listItemLicenceModel;
 
   /**
    * 办件自定义表单
    */
-  List<BusinessCustForm> listCustForm ;
+  List<BusinessCustForm> listCustForm;
 
   String itemdoStateIn;
 
@@ -655,7 +657,7 @@ class Business {
    */
   String appraised;
 
-  List<ItemLicenceCatalog> listItemLicenceCatalog ;
+  List<ItemLicenceCatalog> listItemLicenceCatalog;
 
   /**
    * 是否自动受理之后就办结只针对即办件
@@ -674,50 +676,168 @@ class Business {
 
   /****************以上为自己添加字段********************/
 
-
-  Business(this.id, this.recordCreateTime, this.regId, this.depId, this.itemId,
-      this.itemNo, this.donum, this.slbh, this.acceptDate, this.acceptTime,
-      this.doDate, this.doTime, this.saveTheDay, this.warningDate,
-      this.consentDate, this.legalDate, this.itemdoState, this.bjbz,
-      this.proposerId, this.acceptUserId, this.doUserId, this.ispick,
-      this.runFlowId, this.chargeState, this.chargeMoney, this.itemCategory,
-      this.itemType, this.oncetellState, this.shouldMoney, this.webApplyId,
-      this.serviceObject, this.fetchTime, this.isReceive, this.receivTime,
-      this.receiveUserId, this.receivIpInfo, this.isPush, this.pushDate,
-      this.isPrint, this.uniteBusinessId, this.pickUp, this.pickUpUserName,
-      this.pickUpAddress, this.pickUpPhone, this.expressNumber,
-      this.expressType, this.rowGuid, this.projectNo, this.cdSignAccept,
-      this.cdSignEnd, this.projectNoState, this.postalCode, this.appendixInfo,
-      this.proposer, this.companyLib, this.companyno, this.personLib,
-      this.proposerName, this.cardNo, this.linkUserName, this.phone,
-      this.parentRegId, this.itemName, this.regName, this.depName,
-      this.zfjgDepId, this.zfjgDepName, this.acceptUserName,
-      this.receiveUserName, this.itemWarState, this.nodeWarState,
-      this.doResultState, this.doResultSituation, this.stuffIds, this.listStuff,
-      this.listItemStuffNotUpload, this.stuffRelationId, this.listStuffRelation,
-      this.stuffFileIds, this.listLicence, this.qRCodeUrl, this.flowId,
-      this.logId, this.nowNodeName, this.toItemId, this.toItemName,
-      this.thisNodeType, this.item, this.runFlow, this.log, this.listCard,
-      this.listSupervise, this.listChargeRe, this.listDelay, this.listPause,
-      this.listOncetell, this.listItemLicenceModel, this.listCustForm,
-      this.itemdoStateIn, this.businessDoInfo, this.chargeType,
-      this.chargeMoneyFloat, this.isOncetell, this.oncetell, this.oncetellId,
-      this.oncetellStime, this.oncetellOvertime, this.doUserName, this.delayId,
-      this.delayAcceptTime, this.delayDayNum, this.verifyUserName, this.pauseId,
-      this.pauseAcceptTime, this.userinfo, this.redNum, this.yellowNum,
-      this.hurryNum, this.warningNum, this.sdate, this.edate, this.dosdate,
-      this.doedate, this.derateMoney, this.sendbackMoney, this.factMoney,
-      this.auditResults, this.oncetellLightState, this.userId, this.userName,
-      this.companyName, this.valueMap, this.stuffCatalogId,
-      this.listStuffCatalog, this.firstBusinessId, this.firstItemId,
-      this.upBusinessId, this.listRunNodeLog, this.statePng,
-      this.applicantItemId, this.source, this.investItemStateId,
-      this.investStepStateId, this.appraiseType, this.callRegisterId,
-      this.serchName, this.serviceObjectName, this.isPatrolShow, this.runNum,
-      this.uniteStageName, this.consentLimit, this.expressTypeName,
-      this.slbhOrCardNo, this.itemdoStateCN, this.handleNodeContent,
-      this.saveDayNotHasHoliday, this.appraised, this.listItemLicenceCatalog,
-      this.isAutoDone, this.taskCode, this.taskHandleItem);
+  Business(
+      this.id,
+      this.recordCreateTime,
+      this.regId,
+      this.depId,
+      this.itemId,
+      this.itemNo,
+      this.donum,
+      this.slbh,
+      this.acceptDate,
+      this.acceptTime,
+      this.doDate,
+      this.doTime,
+      this.saveTheDay,
+      this.warningDate,
+      this.consentDate,
+      this.legalDate,
+      this.itemdoState,
+      this.bjbz,
+      this.proposerId,
+      this.acceptUserId,
+      this.doUserId,
+      this.ispick,
+      this.runFlowId,
+      this.chargeState,
+      this.chargeMoney,
+      this.itemCategory,
+      this.itemType,
+      this.oncetellState,
+      this.shouldMoney,
+      this.webApplyId,
+      this.serviceObject,
+      this.fetchTime,
+      this.isReceive,
+      this.receivTime,
+      this.receiveUserId,
+      this.receivIpInfo,
+      this.isPush,
+      this.pushDate,
+      this.isPrint,
+      this.uniteBusinessId,
+      this.pickUp,
+      this.pickUpUserName,
+      this.pickUpAddress,
+      this.pickUpPhone,
+      this.expressNumber,
+      this.expressType,
+      this.rowGuid,
+      this.projectNo,
+      this.cdSignAccept,
+      this.cdSignEnd,
+      this.projectNoState,
+      this.postalCode,
+      this.appendixInfo,
+      this.proposer,
+      this.companyLib,
+      this.companyno,
+      this.personLib,
+      this.proposerName,
+      this.cardNo,
+      this.linkUserName,
+      this.phone,
+      this.parentRegId,
+      this.itemName,
+      this.regName,
+      this.depName,
+      this.zfjgDepId,
+      this.zfjgDepName,
+      this.acceptUserName,
+      this.receiveUserName,
+      this.itemWarState,
+      this.nodeWarState,
+      this.doResultState,
+      this.doResultSituation,
+      this.stuffIds,
+      this.listStuff,
+      this.listItemStuffNotUpload,
+      this.stuffRelationId,
+      this.listStuffRelation,
+      this.stuffFileIds,
+      this.listLicence,
+      this.qRCodeUrl,
+      this.flowId,
+      this.logId,
+      this.nowNodeName,
+      this.toItemId,
+      this.toItemName,
+      this.thisNodeType,
+      this.item,
+      this.runFlow,
+      this.log,
+      this.listCard,
+      this.listSupervise,
+      this.listChargeRe,
+      this.listDelay,
+      this.listPause,
+      this.listOncetell,
+      this.listItemLicenceModel,
+      this.listCustForm,
+      this.itemdoStateIn,
+      this.businessDoInfo,
+      this.chargeType,
+      this.chargeMoneyFloat,
+      this.isOncetell,
+      this.oncetell,
+      this.oncetellId,
+      this.oncetellStime,
+      this.oncetellOvertime,
+      this.doUserName,
+      this.delayId,
+      this.delayAcceptTime,
+      this.delayDayNum,
+      this.verifyUserName,
+      this.pauseId,
+      this.pauseAcceptTime,
+      this.userinfo,
+      this.redNum,
+      this.yellowNum,
+      this.hurryNum,
+      this.warningNum,
+      this.sdate,
+      this.edate,
+      this.dosdate,
+      this.doedate,
+      this.derateMoney,
+      this.sendbackMoney,
+      this.factMoney,
+      this.auditResults,
+      this.oncetellLightState,
+      this.userId,
+      this.userName,
+      this.companyName,
+      this.valueMap,
+      this.stuffCatalogId,
+      this.listStuffCatalog,
+      this.firstBusinessId,
+      this.firstItemId,
+      this.upBusinessId,
+      this.listRunNodeLog,
+      this.statePng,
+      this.applicantItemId,
+      this.source,
+      this.investItemStateId,
+      this.investStepStateId,
+      this.appraiseType,
+      this.callRegisterId,
+      this.serchName,
+      this.serviceObjectName,
+      this.isPatrolShow,
+      this.runNum,
+      this.uniteStageName,
+      this.consentLimit,
+      this.expressTypeName,
+      this.slbhOrCardNo,
+      this.itemdoStateCN,
+      this.handleNodeContent,
+      this.saveDayNotHasHoliday,
+      this.appraised,
+      this.listItemLicenceCatalog,
+      this.isAutoDone,
+      this.taskCode,
+      this.taskHandleItem);
 
   factory Business.fromJson(Map<String, dynamic> srcJson) =>
       _$BusinessFromJson(srcJson);

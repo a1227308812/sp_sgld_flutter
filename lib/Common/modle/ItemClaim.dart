@@ -23,7 +23,7 @@ class ItemClaim  {
   String pushContent;
 
   @JsonKey(name: 'claimState')
-  int claimState;
+  int claimState;  //0未认领  1认领
 
   @JsonKey(name: 'itemNo')
   String itemNo;

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="sp_sgld_flutter" default="all">
+  
+  
+  <property file="sp_sgld_flutter.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*.yarb/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.ear"/>
+    <include name="*.egg"/>
+    <include name="*.jar"/>
+    <include name="*.swc"/>
+    <include name="*.ane"/>
+    <include name="*.war"/>
+    <include name="*.zip"/>
+    <include name="*.klib"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.android_api_25_platform" value="${jdk.home.android_api_25_platform}/../Java/jdk1.8.0_172/bin"/>
+  <path id="jdk.classpath.android_api_25_platform">
+    <fileset dir="${jdk.home.android_api_25_platform}">
+      <include name="platforms/android-25/android.jar"/>
+      <include name="platforms/android-25/data/res"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.android_api_27_platform}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.android_api_27_platform}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.android_api_27_platform"/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.dart_packages.classpath">
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/analyzer-0.36.4/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/args-1.5.2/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/async-2.2.0/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/boolean_selector-1.0.4/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/build-1.1.4/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/build_config-0.4.0/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/build_daemon-1.1.0/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/build_resolvers-1.0.5/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/build_runner-1.6.1/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/build_runner_core-3.0.6/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/built_collection-4.2.2/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/built_value-6.6.0/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/charcode-1.1.2/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/code_builder-3.2.0/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/collection-1.14.11/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/convert-2.1.1/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/cookie_jar-1.0.0/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/crypto-2.0.6/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/csslib-0.16.0/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/cupertino_icons-0.1.2/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/dart_style-1.2.8/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/dio-2.1.7/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/event_bus-1.1.0/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/fixnum-0.10.9/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/flutter_advanced_networkimage-0.5.0/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/flutter_easyrefresh-1.2.7/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/flutter_image_compress-0.6.3/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/flutter_screenutil-0.5.2/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/flutter_spinkit-3.1.0/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/flutter_svg-0.13.1/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/front_end-0.1.19/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/glob-1.1.7/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/graphs-0.2.0/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/html-0.14.0+2/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/http-0.12.0+2/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/http_multi_server-2.1.0/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/http_parser-3.1.3/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/intl-0.15.8/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/io-0.3.3/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/js-0.6.1+1/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/json_annotation-2.4.0/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/json_serializable-3.0.0/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/kernel-0.3.19/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/logging-0.11.3+2/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/matcher-0.12.5/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/meta-1.1.6/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/mime-0.9.6+3/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/multi_image_picker-4.3.5/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/oktoast-2.1.8/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/package_config-1.0.5/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/package_resolver-1.0.10/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/path-1.6.2/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/path_drawing-0.4.1/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/path_parsing-0.1.4/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/path_provider-1.1.2/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/pedantic-1.5.0/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/petitparser-2.3.0/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/pool-1.4.0/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/pub_semver-1.4.2/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/pubspec_parse-0.1.4/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/quiver-2.0.3/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/shared_preferences-0.5.3+1/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/shelf-0.7.5/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/shelf_web_socket-0.2.3/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/source_gen-0.9.4+2/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/source_span-1.5.5/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/stack_trace-1.9.3/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/stream_channel-2.0.0/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/stream_transform-0.0.19/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/string_scanner-1.0.4/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/term_glyph-1.1.0/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/test_api-0.2.5/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/timing-0.1.1+1/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/typed_data-1.1.6/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/vector_math-2.0.8/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/watcher-0.9.7+10/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/web_socket_channel-1.0.13/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/xml-3.5.0/lib"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/yaml-2.1.16/lib"/>
+    <pathelement location="${basedir}/../../../../flutter/flutter/bin/cache/pkg/sky_engine/lib"/>
+    <pathelement location="${basedir}/../../../../flutter/flutter/packages/flutter/lib"/>
+    <pathelement location="${basedir}/../../../../flutter/flutter/packages/flutter_localizations/lib"/>
+    <pathelement location="${basedir}/../../../../flutter/flutter/packages/flutter_test/lib"/>
+  </path>
+  
+  <path id="library.dart_sdk.classpath">
+    <pathelement location="${basedir}/../../../../flutter/flutter/bin/cache/dart-sdk/lib/async"/>
+    <pathelement location="${basedir}/../../../../flutter/flutter/bin/cache/dart-sdk/lib/collection"/>
+    <pathelement location="${basedir}/../../../../flutter/flutter/bin/cache/dart-sdk/lib/convert"/>
+    <pathelement location="${basedir}/../../../../flutter/flutter/bin/cache/dart-sdk/lib/core"/>
+    <pathelement location="${basedir}/../../../../flutter/flutter/bin/cache/dart-sdk/lib/developer"/>
+    <pathelement location="${basedir}/../../../../flutter/flutter/bin/cache/dart-sdk/lib/html"/>
+    <pathelement location="${basedir}/../../../../flutter/flutter/bin/cache/dart-sdk/lib/io"/>
+    <pathelement location="${basedir}/../../../../flutter/flutter/bin/cache/dart-sdk/lib/isolate"/>
+    <pathelement location="${basedir}/../../../../flutter/flutter/bin/cache/dart-sdk/lib/math"/>
+    <pathelement location="${basedir}/../../../../flutter/flutter/bin/cache/dart-sdk/lib/mirrors"/>
+    <pathelement location="${basedir}/../../../../flutter/flutter/bin/cache/dart-sdk/lib/typed_data"/>
+  </path>
+  
+  <path id="library.flutter_for_android.classpath">
+    <pathelement location="${basedir}/../../../../flutter/flutter/bin/cache/artifacts/engine/android-arm/flutter.jar"/>
+  </path>
+  
+  <path id="library.flutter_plugins.classpath">
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/flutter_image_compress-0.6.3"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/multi_image_picker-4.3.5"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/path_provider-1.1.2"/>
+    <pathelement location="C:/Users/ZWP/AppData/Roaming/Pub/Cache/hosted/pub.flutter-io.cn/shared_preferences-0.5.3+1"/>
+  </path>
+  
+  
+  <!-- Application Server Libraries -->
+  <!-- Register Custom Compiler Taskdefs -->
+  <property name="javac2.home" value="${idea.home}/lib"/>
+  <path id="javac2.classpath">
+    <fileset dir="${javac2.home}">
+      <include name="javac2.jar"/>
+      <include name="jdom.jar"/>
+      <include name="asm-all*.jar"/>
+      <include name="forms-*.jar"/>
+    </fileset>
+  </path>
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
+  
+  <!-- Modules -->
+  
+  <import file="${basedir}/module_sp_sgld_flutter.xml"/>
+  
+  <import file="${basedir}/android/module_sp_sgld_flutter_android.xml"/>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.sp_sgld_flutter, clean.module.sp_sgld_flutter_android" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.sp_sgld_flutter, compile.module.sp_sgld_flutter_android" description="build all modules"/>
+  
+  <target name="all" depends="build.modules" description="build all"/>
+</project>

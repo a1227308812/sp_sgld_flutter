@@ -257,7 +257,7 @@ class UserInfo {
   String depName;
 
   /**
-   * 所属部门类别
+   * 所属部门类别  0管理部门 1业务部门 2表示监管部门 3执法部门  0和1不管 只考虑2和3
    */
   String depType;
 

@@ -11,7 +11,10 @@ import 'package:flutter_easyrefresh/ball_pulse_header.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:sp_sgld_flutter/Common/config/Config.dart';
-
+/**
+ * Created by ZWP on 2019/7/29 17:38.
+ * 描述：自定义刷新列表
+ */
 class InfiniteListView extends StatefulWidget {
   EdgeInsetsGeometry padding;
 

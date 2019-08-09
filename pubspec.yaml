@@ -38,6 +38,7 @@ dependencies:
   multi_image_picker: any #图片选择
   flutter_image_compress: any #图片压缩
   flutter_advanced_networkimage: any #图片查看
+  event_bus: 1.1.0  #组件通信
 
 dev_dependencies:
   flutter_test:

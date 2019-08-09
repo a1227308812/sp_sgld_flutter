@@ -1,16 +1,11 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sp_sgld_flutter/Utils/ChineseCupertinoLocalizations.dart';
-import 'package:sp_sgld_flutter/Widgets/InfiniteListView.dart';
-import 'package:sp_sgld_flutter/utils/NavigatorUtils.dart';
 import 'package:sp_sgld_flutter/Pages/LoginPage.dart';
-import 'package:oktoast/oktoast.dart';
 
-import 'package:sp_sgld_flutter/Common/config/Config.dart';
+import 'package:sp_sgld_flutter/Utils/ImportLib.dart';
+
 /**
  * Created by ZWP on 2019/6/25 18:09.
  * 描述：项目入口 类似于android的application
@@ -47,12 +42,12 @@ class MyApp extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
         ],
         //设置支持的国际化种类
-        supportedLocales: [                                   //此处
-          const Locale('zh','CH'), // China
-          const Locale('en','US'),
+        supportedLocales: [
+          //此处
+          const Locale('zh', 'CH'), // China
+          const Locale('en', 'US'),
         ],
       ),
     );
   }
-
 }

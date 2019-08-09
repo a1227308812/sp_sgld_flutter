@@ -34,13 +34,13 @@ class NavigatorUtils {
   static String rectificationInformationEntryListPageKey =
       '/rectificationInformationEntryListPageKey';
 
-  //整改信息录入详情
-  static String rectificationEntryPageKey = '/rectificationEntryPageKey';
+//  //整改信息录入详情
+//  static String rectificationEntryPageKey = '/rectificationEntryPageKey';
 
   //综合查询
   static String integratedQueryListPageKey = '/integratedQueryListPageKey';
-  //综合查询详情
-  static String integratedQueryDetailPageKey = '/integratedQueryDetailPageKey';
+//  //综合查询详情
+//  static String integratedQueryDetailPageKey = '/integratedQueryDetailPageKey';
 
   static Map<String, WidgetBuilder> router = {
     //注册登录页面路由
@@ -53,14 +53,14 @@ class NavigatorUtils {
 
     regulatoryInformationEntryListPageKey: (context) =>
         RegulatoryInformationEntryListPage(),
-    regulatoryEntryPageKey: (context) => RegulatoryEntryPage(),
+//    regulatoryEntryPageKey: (context) => RegulatoryEntryPage(),
 
     rectificationInformationEntryListPageKey: (context) =>
         RectificationInformationEntryListPage(),
-    rectificationEntryPageKey: (context) => RectificationEntryPage(),
+//    rectificationEntryPageKey: (context) => RectificationEntryPage(),
 
     integratedQueryListPageKey: (context) => IntegratedQueryListPage(),
-    integratedQueryDetailPageKey: (context) => IntegratedQueryDetail(),
+//    integratedQueryDetailPageKey: (context) => IntegratedQueryDetail(),
   };
 
   //静态跳转

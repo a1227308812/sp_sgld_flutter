@@ -1,3 +1,4 @@
+import 'package:sp_sgld_flutter/Common/modle/Patrol.dart';
 import 'package:sp_sgld_flutter/Utils/ImportLib.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sp_sgld_flutter/Common/http/Api.dart';
@@ -10,32 +11,29 @@ import 'package:sp_sgld_flutter/Common/local/LocalStorage.dart';
 import 'package:sp_sgld_flutter/Common/local/LocalStorageKey.dart';
 
 /**
- * Created by ZWP on 2019/6/20 18:14.
- * 描述：事项认领列表界面
+ * Created by ZWP on 2019/8/06 10:20.
+ * 描述：执法认领列表界面
  */
-class ItemCliamListPage extends StatefulWidget {
+class PatrolClaimListPage extends StatefulWidget {
   @override
-  State<ItemCliamListPage> createState() {
-    // TODO: implement createState
-    return _ItemCliamListPageState();
+  State<PatrolClaimListPage> createState() {
+    return _PatrolClaimListPageState();
   }
 }
 
-class _ItemCliamListPageState extends State<ItemCliamListPage> {
+class _PatrolClaimListPageState extends State<PatrolClaimListPage> {
   static int pageNum = 0;
-  List<ItemClaim> itemClaimInfo = List();
+  List<Patrol> patrolList = List();
   GlobalKey<EasyRefreshState> easyRefreshKey = GlobalKey<EasyRefreshState>();
   bool hasNextPage = true;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       backgroundColor: Color(0xfff7f7f9),
       appBar: AppBar(
@@ -47,7 +45,7 @@ class _ItemCliamListPageState extends State<ItemCliamListPage> {
             top: ScreenUtil().setHeight(20),
             bottom: ScreenUtil().setHeight(20)),
         easyRefreshKey: easyRefreshKey,
-        data: itemClaimInfo,
+        data: patrolList,
         firstRefresh: true,
         hasNextPage: hasNextPage,
         refreshCallback: () {
@@ -87,12 +85,12 @@ class _ItemCliamListPageState extends State<ItemCliamListPage> {
       'pageNum': pageNum
     };
     ResultData resultData = await BasicNetService()
-        .post(Api.listPagedSuperBuspushForClaim, params: parms);
+        .post(Api.listPagedPatrolForZFClaim, params: parms);
     if (resultData.resultStatue) {
       PageResult pageResult = PageResult.fromJson(resultData.data);
-      if (isRefresh) itemClaimInfo.clear();
-      itemClaimInfo.addAll(
-          pageResult.listData.map((map) => ItemClaim.fromJson(map)).toList());
+      if (isRefresh) patrolList.clear();
+      patrolList.addAll(
+          pageResult.listData.map((map) => Patrol.fromJson(map)).toList());
       if (pageResult.listData?.length < Config.pageSize) hasNextPage = false;
       setState(() {
         pageNum++;
@@ -136,13 +134,13 @@ class _ItemCliamListPageState extends State<ItemCliamListPage> {
                     children: <Widget>[
                       Expanded(
                         child: Container(
-                          margin: itemClaimInfo[index].claimState == 0
+                          margin: patrolList[index].zfClaimState == 0
                               ? hadButtom
                               : notButtom,
                           child: Text.rich(TextSpan(children: [
                             TextSpan(
                                 //认领状态 0未认领  1认领
-                                text: itemClaimInfo[index].claimState == 0
+                                text: patrolList[index].zfClaimState == 0
                                     ? '未认领'
                                     : '已认领',
                                 style: TextStyle(
@@ -150,12 +148,12 @@ class _ItemCliamListPageState extends State<ItemCliamListPage> {
                                     background: Paint()
                                       ..style = PaintingStyle.fill
                                       ..color =
-                                          itemClaimInfo[index].claimState == 0
+                                          patrolList[index].zfClaimState == 0
                                               ? Colors.red
                                               : Colors.green)),
                             TextSpan(
-                              text: '  ' +
-                                  itemClaimInfo[index].itemName.toString(),
+                              text:
+                                  '  ' + patrolList[index].itemName.toString(),
                               style: TextStyle(
                                   color: Color(0xff373b40),
                                   fontSize: ScreenUtil().setSp(30)),
@@ -171,7 +169,7 @@ class _ItemCliamListPageState extends State<ItemCliamListPage> {
                           bottom: ScreenUtil().setHeight(30),
                           left: ScreenUtil().setWidth(30)),
                       child: Text(
-                        '申请人：' + itemClaimInfo[index].proposerName.toString(),
+                        '申请人：' + patrolList[index].proposerName.toString(),
                         style: TextStyle(
                             color: Color(0xffa0a4a9),
                             fontSize: ScreenUtil().setSp(24)),
@@ -209,7 +207,7 @@ class _ItemCliamListPageState extends State<ItemCliamListPage> {
                     child: Text('确认'),
                     onPressed: () {
                       //发送接收操作给后台，提示完成认领
-                      _submitData(itemClaimInfo[index].id);
+                      _submitData(patrolList[index].id);
                     },
                   ),
                 ],
@@ -218,24 +216,24 @@ class _ItemCliamListPageState extends State<ItemCliamListPage> {
       },
       child: Container(
         margin: EdgeInsets.only(
-            right: ScreenUtil().setWidth(30),
-            left: ScreenUtil().setWidth(10)),
+            right: ScreenUtil().setWidth(30), left: ScreenUtil().setWidth(10)),
         alignment: Alignment.center,
         width: ScreenUtil().setWidth(88),
         height: ScreenUtil().setWidth(88),
         decoration: ShapeDecoration(
           shape: CircleBorder(),
           color: Color(0xff78cefd),
-          shadows: [BoxShadow(color: Colors.grey,offset: Offset(1, 1),blurRadius: 3)],
+          shadows: [
+            BoxShadow(color: Colors.grey, offset: Offset(1, 1), blurRadius: 3)
+          ],
         ),
         child: Text('接收',
             style: TextStyle(
-                color: Colors.white,
-                fontSize: ScreenUtil().setSp(24))),
+                color: Colors.white, fontSize: ScreenUtil().setSp(24))),
       ),
     );
 
-    if (itemClaimInfo[index].claimState == 0) {
+    if (patrolList[index].zfClaimState == 0) {
       return receiveButton;
     } else {
       return Container();
@@ -249,7 +247,7 @@ class _ItemCliamListPageState extends State<ItemCliamListPage> {
       'id': id,
     };
     ResultData resultData =
-        await BasicNetService().post(Api.doSuperBusClaim, params: parms);
+        await BasicNetService().post(Api.doPatrolClaim, params: parms);
     if (resultData.resultStatue) {
       //刷新列表
       easyRefreshKey.currentState.callRefresh();

@@ -1,14 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sp_sgld_flutter/Common/Http/Api.dart';
 import 'package:sp_sgld_flutter/Common/Http/BasicNetService.dart';
 import 'package:sp_sgld_flutter/Common/local/LocalStorage.dart';
 import 'package:sp_sgld_flutter/Common/modle/UserInfo.dart';
-import 'package:oktoast/oktoast.dart';
-import 'dart:convert';
 
-import 'package:sp_sgld_flutter/Utils/NavigatorUtils.dart';
+import 'package:sp_sgld_flutter/Utils/ImportLib.dart';
 
 /**
  * Created by ZWP on 2019/6/20 18:16.
@@ -20,8 +16,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController accountController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+//  TextEditingController accountController = TextEditingController()..value = TextEditingValue(text: 'scjgjjg001');
+  TextEditingController accountController = TextEditingController()
+    ..value = TextEditingValue(text: 'scjgjzf001');
+  TextEditingController passwordController = TextEditingController()
+    ..value = TextEditingValue(text: '1');
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +32,6 @@ class _LoginPageState extends State<LoginPage> {
    * 根布局
    */
   _getContentWidget() {
-    accountController.value = TextEditingValue(text: 'scjgjjg001');
-    passwordController.value = TextEditingValue(text: '1');
     return Container(
       color: Colors.white,
       //滚动竖向排列布局

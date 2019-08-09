@@ -1,6 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sp_sgld_flutter/Common/modle/SuperBuspush.dart';
 
+import 'Business.dart';
+
 part 'Patrol.g.dart';
 /**
  * Created by ZWP on 2019/7/23 14:09.
@@ -133,7 +135,7 @@ class Patrol {
   int superBusId;
 
   /**
-   * 执法认领状态
+   * 执法认领状态  0未认领  1认领
    */
 
   int zfClaimState;
@@ -157,8 +159,8 @@ class Patrol {
   String personOrCompany;
 
   /****************以上主要为系统表字段********************/
-
-//   Business business;
+    //办件信息
+   Business business;
 //
 //  /**
 //   * 检查结果记录表
@@ -265,6 +267,7 @@ class Patrol {
       this.claimUserName,
       this.serviceObject,
       this.penaltyResult,
+      this.business,
       this.apparitorId);
 
    SuperBuspush superBuspush;

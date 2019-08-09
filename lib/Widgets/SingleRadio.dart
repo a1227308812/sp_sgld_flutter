@@ -4,7 +4,7 @@ import 'package:sp_sgld_flutter/Utils/ImportLib.dart';
  * Created by ZWP on 2019/7/12 16:20.
  * 描述：单选按钮
  */
-//
+//按钮点击选择回调
 typedef void SelectRadio(int groupValue);
 
 class SingleRadio extends StatefulWidget {

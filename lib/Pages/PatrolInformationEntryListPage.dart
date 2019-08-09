@@ -1,6 +1,7 @@
-import 'package:sp_sgld_flutter/Common/modle/SuperBuspush.dart';
+import 'package:sp_sgld_flutter/Common/event/PatrolListRefreshEvent.dart';
+import 'package:sp_sgld_flutter/Common/modle/Apparitor.dart';
+import 'package:sp_sgld_flutter/Common/modle/Patrol.dart';
 import 'package:sp_sgld_flutter/Utils/ImportLib.dart';
-import 'package:sp_sgld_flutter/Common/event/RegulatoryListRefreshEvent.dart';
 import 'package:sp_sgld_flutter/Common/Http/BasicNetService.dart';
 import 'package:sp_sgld_flutter/Common/http/Api.dart';
 import 'package:sp_sgld_flutter/Common/local/LocalStorage.dart';
@@ -8,23 +9,22 @@ import 'package:sp_sgld_flutter/Common/modle/PageResult.dart';
 import 'package:sp_sgld_flutter/Common/modle/UserInfo.dart';
 import 'package:sp_sgld_flutter/Widgets/InfiniteListView.dart';
 
-import 'RegulatoryEntry.dart';
+import 'PatrolEntryPage.dart';
 
 /**
- * Created by ZWP on 2019/6/21 11:38.
- * 描述：监管信息录入列表界面
+ * Created by ZWP on 2019/8/06 11:38.
+ * 描述：执法信息录入列表界面
  */
-class RegulatoryInformationEntryListPage extends StatefulWidget {
+class PatrolInformationEntryListPage extends StatefulWidget {
   @override
-  State<RegulatoryInformationEntryListPage> createState() {
-    // TODO: implement createState
+  State<PatrolInformationEntryListPage> createState() {
     return RegulatoryInformationEntryState();
   }
 }
 
 class RegulatoryInformationEntryState
-    extends State<RegulatoryInformationEntryListPage> {
-  List<SuperBuspush> superBuspushList = List();
+    extends State<PatrolInformationEntryListPage> {
+  List<Patrol> patrolList = List();
   GlobalKey<EasyRefreshState> easyRefreshKey = GlobalKey();
   bool hasNextPage = true;
   static int pageNum = 0;
@@ -32,7 +32,7 @@ class RegulatoryInformationEntryState
   @override
   void initState() {
     super.initState();
-    EventHelper.eventBus.on<RegulatoryListRefreshEvent>().listen((event) {
+    EventHelper.eventBus.on<PatrolListRefreshEvent>().listen((event) {
       //详情页面提交成功数据之后返回列表页面刷新列表
       getSeverceData(true);
     });
@@ -48,7 +48,7 @@ class RegulatoryInformationEntryState
           padding: EdgeInsets.only(
               top: ScreenUtil().setHeight(20),
               bottom: ScreenUtil().setHeight(20)),
-          data: superBuspushList,
+          data: patrolList,
           easyRefreshKey: easyRefreshKey,
           hasNextPage: hasNextPage,
           refreshCallback: () {
@@ -101,7 +101,8 @@ class RegulatoryInformationEntryState
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      superBuspushList[index].proposerName.toString(),
+                      //事项名称
+                      patrolList[index].itemName.toString(),
                       style: TextStyle(
                         color: Color(0xff373b40),
                         fontSize: ScreenUtil().setSp(30),
@@ -112,7 +113,8 @@ class RegulatoryInformationEntryState
                     Container(
                       margin: EdgeInsets.only(top: ScreenUtil().setHeight(25)),
                       child: Text(
-                        '事项名称：' + superBuspushList[index].itemName.toString(),
+                        '申请人/企业名称：' +
+                            patrolList[index].proposerName.toString(),
                         style: TextStyle(
                           color: Color(0xffa0a4a9),
                           fontSize: ScreenUtil().setSp(30),
@@ -129,8 +131,7 @@ class RegulatoryInformationEntryState
                   //跳转录入页面
                   NavigatorUtils.navigatorRouterByWidget(
                       context: context,
-                      widget:
-                          RegulatoryEntryPage(superBuspushList[index].id));
+                      widget: PatrolEntryPage(patrolList[index].id));
                 },
                 child: Container(
                   margin: EdgeInsets.only(
@@ -178,18 +179,18 @@ class RegulatoryInformationEntryState
       'pageNum': pageNum
     };
     ResultData resultData =
-        await BasicNetService().post(Api.listPagedMyClaim, params: parms);
+        await BasicNetService().post(Api.listPagedMyApparitorClaim, params: parms);
     if (resultData.resultStatue) {
       PageResult result = PageResult.fromJson(resultData.data);
       if (null != result) {
         //取出数据集合
         List dataList = result.listData;
         //把每个集合元素转成对应的对象并装入集合中
-        List<SuperBuspush> newData =
-            dataList.map((map) => SuperBuspush.fromJson(map)).toList();
+        List<Patrol> newData =
+            dataList.map((map) => Patrol.fromJson(map)).toList();
 
-        if (isRefresh) superBuspushList.clear();
-        superBuspushList.addAll(newData);
+        if (isRefresh) patrolList.clear();
+        patrolList.addAll(newData);
         if (newData?.length < Config.pageSize) hasNextPage = false;
         setState(() {
           pageNum++;

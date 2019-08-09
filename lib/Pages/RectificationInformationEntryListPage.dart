@@ -1,18 +1,16 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
+import 'package:sp_sgld_flutter/Utils/ImportLib.dart';
 import 'package:sp_sgld_flutter/Common/Http/BasicNetService.dart';
+import 'package:sp_sgld_flutter/Common/event/RectificationListRefreshEvent.dart';
 import 'package:sp_sgld_flutter/Common/http/Api.dart';
 import 'package:sp_sgld_flutter/Common/local/LocalStorage.dart';
 import 'package:sp_sgld_flutter/Common/modle/PageResult.dart';
-import 'package:sp_sgld_flutter/Common/modle/Patrol.dart';
+import 'package:sp_sgld_flutter/Common/modle/Reform.dart';
 import 'package:sp_sgld_flutter/Common/modle/UserInfo.dart';
-import 'package:sp_sgld_flutter/Utils/NavigatorUtils.dart';
 import 'package:sp_sgld_flutter/Widgets/InfiniteListView.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sp_sgld_flutter/Common/config/Config.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:oktoast/oktoast.dart';
+
+import 'RectificationEntry.dart';
 
 /**
  * Created by ZWP on 2019/7/19 10:58.
@@ -21,21 +19,29 @@ import 'package:oktoast/oktoast.dart';
 class RectificationInformationEntryListPage extends StatefulWidget {
   @override
   State<RectificationInformationEntryListPage> createState() {
-    // TODO: implement createState
     return RectificationInformationEntryState();
   }
 }
 
 class RectificationInformationEntryState
     extends State<RectificationInformationEntryListPage> {
-  List<Patrol> patrolList = List();
+  List<Reform> reformlList = List();
   GlobalKey<EasyRefreshState> easyRefreshKey = GlobalKey();
   bool hasNextPage = true;
   static int pageNum = 0;
 
   @override
+  void initState() {
+    super.initState();
+    EventHelper.eventBus.on<RectificationListRefreshEvent>().listen((event){
+      //详情页面提交成功数据之后返回列表页面刷新列表
+      getSeverceData(true);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    print("build");
     return Scaffold(
       appBar: AppBar(centerTitle: true, title: Text('整改信息')),
       extendBody: true,
@@ -43,7 +49,7 @@ class RectificationInformationEntryState
           padding: EdgeInsets.only(
               top: ScreenUtil().setHeight(20),
               bottom: ScreenUtil().setHeight(20)),
-          data: patrolList,
+          data: reformlList,
           easyRefreshKey: easyRefreshKey,
           hasNextPage: hasNextPage,
           refreshCallback: () {
@@ -96,7 +102,7 @@ class RectificationInformationEntryState
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      patrolList[index].proposerName.toString(),
+                      reformlList[index].proposerName.toString(),
                       style: TextStyle(
                         color: Color(0xff373b40),
                         fontSize: ScreenUtil().setSp(30),
@@ -107,7 +113,7 @@ class RectificationInformationEntryState
                     Container(
                       margin: EdgeInsets.only(top: ScreenUtil().setHeight(25)),
                       child: Text(
-                        '事项名称：' + patrolList[index].itemName.toString(),
+                        '到期时间：' + reformlList[index].reformEndDate.toString(),
                         style: TextStyle(
                           color: Color(0xffa0a4a9),
                           fontSize: ScreenUtil().setSp(30),
@@ -122,8 +128,8 @@ class RectificationInformationEntryState
               GestureDetector(
                 onTap: () {
                   //跳转录入页面
-                  NavigatorUtils.navigatorRouterByName(
-                      context, NavigatorUtils.rectificationEntryPageKey);
+                  NavigatorUtils.navigatorRouterByWidget(
+                      context:context, widget:RectificationEntryPage(reformlList[index].id));
                 },
                 child: Container(
                   margin: EdgeInsets.only(
@@ -135,7 +141,12 @@ class RectificationInformationEntryState
                   decoration: ShapeDecoration(
                     shape: CircleBorder(),
                     color: Color(0xff78cefd),
-                    shadows: [BoxShadow(color: Colors.grey,offset: Offset(1, 1),blurRadius: 3)],
+                    shadows: [
+                      BoxShadow(
+                          color: Colors.grey,
+                          offset: Offset(1, 1),
+                          blurRadius: 3)
+                    ],
                   ),
                   child: Text('录入',
                       style: TextStyle(
@@ -173,11 +184,11 @@ class RectificationInformationEntryState
         //取出数据集合
         List dataList = result.listData;
         //把每个集合元素转成对应的对象并装入集合中
-        List<Patrol> newData =
-            dataList.map((map) => Patrol.fromJson(map)).toList();
+        List<Reform> newData =
+            dataList.map((map) => Reform.fromJson(map)).toList();
 
-        if (isRefresh) patrolList.clear();
-        patrolList.addAll(newData);
+        if (isRefresh) reformlList.clear();
+        reformlList.addAll(newData);
         if (newData?.length < Config.pageSize) hasNextPage = false;
         setState(() {
           pageNum++;

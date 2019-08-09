@@ -1,14 +1,13 @@
-import 'package:oktoast/oktoast.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:sp_sgld_flutter/Common/local/LocalStorage.dart';
 import 'package:sp_sgld_flutter/Common/modle/MenuInfo.dart';
 import 'package:sp_sgld_flutter/Common/modle/UserInfo.dart';
-import 'package:sp_sgld_flutter/Utils/NavigatorUtils.dart';
-import 'dart:convert';
 import 'package:sp_sgld_flutter/Common/http/BasicNetService.dart';
 import 'package:sp_sgld_flutter/Common/http/Api.dart';
+import 'package:sp_sgld_flutter/Pages/PatrolClaimListPage.dart';
+
+import 'package:sp_sgld_flutter/Utils/ImportLib.dart';
+
+import 'PatrolInformationEntryListPage.dart';
 
 /**
  * Created by ZWP on 2019/6/20 18:16.
@@ -63,7 +62,7 @@ class HomePageState extends State<HomePage> {
   _getItemLayout({
     String title,
     String menuCode,
-    String icon,
+    String icon = 'assets/images/index_icon_jgxxlr.png',
     String arrowIcon: 'assets/images/index_icon_arrow.png',
     int color: 0xff8b73ff,
   }) {
@@ -77,7 +76,6 @@ class HomePageState extends State<HomePage> {
     return GestureDetector(
       onTap: () {
         //点击事件
-        showToast(title);
         switch (menuCode) {
           case 'inquest': //现场勘验
             break;
@@ -90,8 +88,8 @@ class HomePageState extends State<HomePage> {
                 context, NavigatorUtils.regulatoryInformationEntryListPageKey);
             break;
           case 'rectificationInput': //整改信息录入
-            NavigatorUtils.navigatorRouterByName(
-                context, NavigatorUtils.rectificationInformationEntryListPageKey);
+            NavigatorUtils.navigatorRouterByName(context,
+                NavigatorUtils.rectificationInformationEntryListPageKey);
             break;
           case 'comprehensive': //综合查询
             NavigatorUtils.navigatorRouterByName(
@@ -100,6 +98,14 @@ class HomePageState extends State<HomePage> {
           case 'comprehensive': //综合查询
             NavigatorUtils.navigatorRouterByName(
                 context, NavigatorUtils.integratedQueryListPageKey);
+            break;
+          case 'senforcementInput': //执法信息录入
+            NavigatorUtils.navigatorRouterByWidget(
+                context: context, widget: PatrolInformationEntryListPage());
+            break;
+          case 'patrolClaim': //执法认领
+            NavigatorUtils.navigatorRouterByWidget(
+                context: context, widget: PatrolClaimListPage());
             break;
         }
       },
@@ -198,6 +204,10 @@ class HomePageState extends State<HomePage> {
       case 'superviseInput': //监管信息录入
         return 'assets/images/index_icon_jgxxlr.png';
       case 'rectificationInput': //整改信息录入
+        return 'assets/images/index_icon_zgxxlr.png';
+      case 'patrolClaim': //执法信息认领
+        return 'assets/images/index_icon_zgxxlr.png';
+      case 'senforcementInput': //执法信息录入
         return 'assets/images/index_icon_zgxxlr.png';
       case 'comprehensive': //综合查询
         return 'assets/images/index_icon_zhcx.png';

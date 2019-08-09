@@ -7,7 +7,9 @@ class Api {
 //  static const secretKey = '610822-FUGU-SP-98-201902';
 
   // 服务器地址
-  static const String baseUrl = "http://192.168.1.77:83";
+//  static const String baseUrl = "http://192.168.1.77:83";
+  static const String baseUrl = "http://192.168.1.186:83";
+//  static const String baseUrl = "http://192.168.1.142:80";
 
   static const String appUrl = '/app/';
 

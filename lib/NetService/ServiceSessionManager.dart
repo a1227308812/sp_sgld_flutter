@@ -30,7 +30,8 @@ class ServiceSessionManager extends Dio {
         //接收数据的最长时限  15s
         receiveTimeout: 15000,
         //返回数据类型设置
-        responseType: ResponseType.json,
+//        responseType: ResponseType.json,
+        responseType: ResponseType.plain,
 
         /// 请求的Content-Type，默认值是[ContentType.JSON].
         /// 如果您想以"application/x-www-form-urlencoded"格式编码请求数据,
