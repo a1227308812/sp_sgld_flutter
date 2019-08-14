@@ -6,9 +6,7 @@ import 'package:sp_sgld_flutter/Pages/IntegratedQueryListPage.dart';
 import 'package:sp_sgld_flutter/Pages/LoginPage.dart';
 
 import 'package:sp_sgld_flutter/Pages/ItemClaimListPage.dart';
-import 'package:sp_sgld_flutter/Pages/RectificationEntry.dart';
 import 'package:sp_sgld_flutter/Pages/RectificationInformationEntryListPage.dart';
-import 'package:sp_sgld_flutter/Pages/RegulatoryEntry.dart';
 import 'package:sp_sgld_flutter/Pages/RegulatoryInformationEntryListPage.dart';
 
 /**

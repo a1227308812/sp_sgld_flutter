@@ -33,7 +33,7 @@ class RectificationInformationEntryState
   @override
   void initState() {
     super.initState();
-    EventHelper.eventBus.on<RectificationListRefreshEvent>().listen((event){
+    EventHelper.eventBus.on<RectificationListRefreshEvent>().listen((event) {
       //详情页面提交成功数据之后返回列表页面刷新列表
       getSeverceData(true);
     });
@@ -41,9 +41,23 @@ class RectificationInformationEntryState
 
   @override
   Widget build(BuildContext context) {
-    print("build");
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: Text('整改信息')),
+      appBar: AppBar(centerTitle: true, title: Text('整改信息'), actions: <Widget>[
+        GestureDetector(
+          onTap: () {
+            //返回主页
+            Navigator.of(context).popUntil(ModalRoute.withName("/home"));
+          },
+          child: Container(
+            margin: EdgeInsets.only(right: 10),
+            child: Image(
+              image: AssetImage('assets/images/icon_home.png'),
+              height: 25,
+              width: 25,
+            ),
+          ),
+        ),
+      ]),
       extendBody: true,
       body: InfiniteListView(
           padding: EdgeInsets.only(
@@ -53,11 +67,9 @@ class RectificationInformationEntryState
           easyRefreshKey: easyRefreshKey,
           hasNextPage: hasNextPage,
           refreshCallback: () {
-            print('refreshCallback');
             getSeverceData(true);
           },
           loadMoreCallBack: () {
-            print('loadMoreCallBack');
             if (hasNextPage) getSeverceData(false);
           },
           separatorBuilder: (BuildContext context, int index) {
@@ -102,7 +114,7 @@ class RectificationInformationEntryState
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      reformlList[index].proposerName.toString(),
+                      reformlList[index].proposerName.toString() ?? '',
                       style: TextStyle(
                         color: Color(0xff373b40),
                         fontSize: ScreenUtil().setSp(30),
@@ -113,7 +125,8 @@ class RectificationInformationEntryState
                     Container(
                       margin: EdgeInsets.only(top: ScreenUtil().setHeight(25)),
                       child: Text(
-                        '到期时间：' + reformlList[index].reformEndDate.toString(),
+                        '到期时间：' + reformlList[index].reformEndDate.toString() ??
+                            '',
                         style: TextStyle(
                           color: Color(0xffa0a4a9),
                           fontSize: ScreenUtil().setSp(30),
@@ -129,7 +142,8 @@ class RectificationInformationEntryState
                 onTap: () {
                   //跳转录入页面
                   NavigatorUtils.navigatorRouterByWidget(
-                      context:context, widget:RectificationEntryPage(reformlList[index].id));
+                      context: context,
+                      widget: RectificationEntryPage(reformlList[index].id));
                 },
                 child: Container(
                   margin: EdgeInsets.only(

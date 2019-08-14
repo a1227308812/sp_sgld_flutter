@@ -3,7 +3,6 @@ import 'package:sp_sgld_flutter/Utils/ImportLib.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sp_sgld_flutter/Common/http/Api.dart';
 import 'package:sp_sgld_flutter/Common/http/BasicNetService.dart';
-import 'package:sp_sgld_flutter/Common/modle/ItemClaim.dart';
 import 'package:sp_sgld_flutter/Common/modle/PageResult.dart';
 import 'package:sp_sgld_flutter/Common/modle/UserInfo.dart';
 import 'package:sp_sgld_flutter/Widgets/InfiniteListView.dart';
@@ -34,38 +33,34 @@ class _PatrolClaimListPageState extends State<PatrolClaimListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xfff7f7f9),
-      appBar: AppBar(
-        title: Text('列表'),
-        centerTitle: true,
-      ),
-      body: InfiniteListView(
-        padding: EdgeInsets.only(
-            top: ScreenUtil().setHeight(20),
-            bottom: ScreenUtil().setHeight(20)),
-        easyRefreshKey: easyRefreshKey,
-        data: patrolList,
-        firstRefresh: true,
-        hasNextPage: hasNextPage,
-        refreshCallback: () {
-          print('refreshCallback');
-          getSeverceData(true);
-        },
-        loadMoreCallBack: () {
-          print('loadMoreCallBack');
-          if (hasNextPage) getSeverceData(false);
-        },
-        itemBuilder: (BuildContext context, int index) {
-          return _getItemLayout(index);
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return Container(
-            height: ScreenUtil().setHeight(18),
-          );
-        },
-      ),
-    );
+    return CostomWillPopScope(
+        title: '执法认领',
+        bodyColor: 0xfff7f7f9,
+        body: InfiniteListView(
+          padding: EdgeInsets.only(
+              top: ScreenUtil().setHeight(20),
+              bottom: ScreenUtil().setHeight(20)),
+          easyRefreshKey: easyRefreshKey,
+          data: patrolList,
+          firstRefresh: true,
+          hasNextPage: hasNextPage,
+          refreshCallback: () {
+            print('refreshCallback');
+            getSeverceData(true);
+          },
+          loadMoreCallBack: () {
+            print('loadMoreCallBack');
+            if (hasNextPage) getSeverceData(false);
+          },
+          itemBuilder: (BuildContext context, int index) {
+            return _getItemLayout(index);
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return Container(
+              height: ScreenUtil().setHeight(18),
+            );
+          },
+        ));
   }
 
   //获取网络数据

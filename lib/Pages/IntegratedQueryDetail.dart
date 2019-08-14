@@ -6,10 +6,9 @@ import 'package:sp_sgld_flutter/Common/modle/Patrol.dart';
 import 'package:sp_sgld_flutter/Common/modle/Proposer.dart';
 import 'package:sp_sgld_flutter/Utils/ImportLib.dart';
 
-
 /**
  * Created by ZWP on 2019/7/19 10:59.
- * 描述：整改录入详情页面
+ * 描述：综合查询详情
  */
 class IntegratedQueryDetail extends StatefulWidget {
   //0表示监管  1表示执法
@@ -87,6 +86,10 @@ class IntegratedQueryDetailState extends State<IntegratedQueryDetail> {
                 : patrol.treatmentResult == '3' ? '移交执法' : '';
         //检查结果说明
         initDataModle.checkResultExplian = patrol.patrolResultExplain ?? '';
+        //巡查人员名称
+        initDataModle.operationName = patrol.rummageName;
+        //整改到期日期
+        initDataModle.rectificationPreiodDate = patrol.treatmentEndDate;
 
         Business business = patrol.business;
         //初始化办件id
@@ -187,14 +190,9 @@ class IntegratedQueryDetailState extends State<IntegratedQueryDetail> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('综合查询详情'),
-        centerTitle: true,
-      ),
-      extendBody: false,
-      backgroundColor: Color(0xfff7f7f9),
+    return CostomWillPopScope(
+      title: '综合查询详情',
+      bodyColor: 0xfff7f7f9,
       body: ValueListenableBuilder(
           valueListenable: _valueListenable,
           builder: (BuildContext context, InitDataModle value, Widget child) {
@@ -306,7 +304,6 @@ class IntegratedQueryDetailState extends State<IntegratedQueryDetail> {
     );
   }
 
-
 //不可修改的检查结果说明
   _getInfoItemForMultiple({String title, String content}) {
     List<Widget> widgetList = List();
@@ -314,25 +311,30 @@ class IntegratedQueryDetailState extends State<IntegratedQueryDetail> {
     widgetList.add(Container(
       margin: EdgeInsets.only(left: IntegratedQueryDetail.itemMaginLeft),
       alignment: Alignment.centerLeft,
-      height: ScreenUtil().setHeight(80),
+      constraints: BoxConstraints(minHeight: ScreenUtil().setHeight(80)),
       child: Text(title),
     ));
     //输入框
     widgetList.add(Container(
-      width: double.infinity,
-      height: double.infinity,
-      margin: EdgeInsets.only(
-          left: ScreenUtil().setWidth(30),
-          right: ScreenUtil().setWidth(30),
-          bottom: ScreenUtil().setWidth(30)),
-      constraints: BoxConstraints(
-        maxHeight: ScreenUtil().setHeight(100),
-      ),
-      child: Text(
-        '$content',
-        textAlign: TextAlign.start,
-        style: TextStyle(fontSize: ScreenUtil().setSp(30)),
-        maxLines: null,
+      constraints: BoxConstraints(maxHeight: ScreenUtil().setHeight(800)),
+      child: SingleChildScrollView(
+        child: Container(
+          width: double.infinity,
+//      height: double.infinity,
+          margin: EdgeInsets.only(
+              left: ScreenUtil().setWidth(30),
+              right: ScreenUtil().setWidth(30),
+              bottom: ScreenUtil().setWidth(30)),
+          constraints: BoxConstraints(
+            minHeight: ScreenUtil().setHeight(100),
+          ),
+          child: Text(
+            '$content',
+            textAlign: TextAlign.start,
+            style: TextStyle(fontSize: ScreenUtil().setSp(30)),
+            maxLines: null,
+          ),
+        ),
       ),
     ));
     return Container(

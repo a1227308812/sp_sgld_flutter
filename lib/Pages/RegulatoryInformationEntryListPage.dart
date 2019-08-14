@@ -40,10 +40,8 @@ class RegulatoryInformationEntryState
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return Scaffold(
-      appBar: AppBar(centerTitle: true, title: Text('监管信息')),
-      extendBody: true,
+    return CostomWillPopScope(
+      title: '监管信息',
       body: InfiniteListView(
           padding: EdgeInsets.only(
               top: ScreenUtil().setHeight(20),
@@ -129,8 +127,7 @@ class RegulatoryInformationEntryState
                   //跳转录入页面
                   NavigatorUtils.navigatorRouterByWidget(
                       context: context,
-                      widget:
-                          RegulatoryEntryPage(superBuspushList[index].id));
+                      widget: RegulatoryEntryPage(superBuspushList[index].id));
                 },
                 child: Container(
                   margin: EdgeInsets.only(

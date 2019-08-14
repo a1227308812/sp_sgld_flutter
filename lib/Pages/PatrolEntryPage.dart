@@ -1,10 +1,7 @@
 import 'package:sp_sgld_flutter/Common/event/PatrolListRefreshEvent.dart';
-import 'package:sp_sgld_flutter/Common/event/RegulatoryListRefreshEvent.dart';
 import 'package:sp_sgld_flutter/Common/http/Api.dart';
 import 'package:sp_sgld_flutter/Common/http/BasicNetService.dart';
-import 'package:sp_sgld_flutter/Common/modle/Business.dart';
 import 'package:sp_sgld_flutter/Common/modle/Patrol.dart';
-import 'package:sp_sgld_flutter/Common/modle/Proposer.dart';
 import 'package:sp_sgld_flutter/Widgets/LoaddingDialog.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:flutter/services.dart';
@@ -44,10 +41,14 @@ class _RegulatoryEntryState extends State<PatrolEntryPage> {
 //  List<Asset> otherUpfileList = List();
 
   //被执法对象
-  TextEditingController bzfdxController = TextEditingController();
+  String bzfdx = '';
+
+//  TextEditingController bzfdxController = TextEditingController();
 
   //有效证件号码
-  TextEditingController yxzjhmController = TextEditingController();
+  String yxzjhm = '';
+
+//  TextEditingController yxzjhmController = TextEditingController();
 
   //执法人员名称
   TextEditingController zfrymcController = TextEditingController();
@@ -71,13 +72,10 @@ class _RegulatoryEntryState extends State<PatrolEntryPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('执法信息录入'),
-        centerTitle: true,
-      ),
+    return CostomWillPopScope(
+      title: '执法信息录入详情',
       extendBody: false,
-      backgroundColor: Color(0xfff7f7f9),
+      bodyColor: 0xfff7f7f9,
       bottomNavigationBar: Container(
         color: Colors.white,
         height: 50,
@@ -117,14 +115,8 @@ class _RegulatoryEntryState extends State<PatrolEntryPage> {
             children: <Widget>[
               //分割区域
               spaceWidget(),
-              _getInfoItem(
-                  title: '被执法对象：',
-                  hint: '请输入被执法对象姓名',
-                  controller: bzfdxController),
-              _getInfoItem(
-                  title: '有效证件号：',
-                  hint: '请输入有效证件号',
-                  controller: yxzjhmController),
+              _getInfoItem(title: '被执法对象：', hint: '请输入被执法对象姓名', content: bzfdx),
+              _getInfoItem(title: '有效证件号：', hint: '请输入有效证件号', content: yxzjhm),
               _getJCRQItem(title: '执法日期：', hint: '请选择执法日期'),
               _getXCRYItem(
                   title: '执法人员：',
@@ -149,10 +141,7 @@ class _RegulatoryEntryState extends State<PatrolEntryPage> {
   }
 
   _getInfoItem(
-      {String title,
-      String hint,
-      TextEditingController controller,
-      bool isMandatory = true}) {
+      {String title, String hint, String content, bool isMandatory = true}) {
     return Container(
       height: PatrolEntryPage.itemHeight,
       child: Column(
@@ -168,12 +157,10 @@ class _RegulatoryEntryState extends State<PatrolEntryPage> {
                   child: Container(
                     margin:
                         EdgeInsets.only(right: PatrolEntryPage.itemMaginLeft),
-                    child: TextField(
+                    child: Text(
+                      '$content',
                       maxLines: 1,
                       textAlign: TextAlign.right,
-                      controller: controller,
-                      decoration: InputDecoration(
-                          hintText: '$hint', border: InputBorder.none),
                       style: TextStyle(decoration: TextDecoration.none),
                     ),
                   ),
@@ -416,10 +403,10 @@ class _RegulatoryEntryState extends State<PatrolEntryPage> {
     if (resultData.resultStatue) {
       Patrol patrol = Patrol.fromJson(resultData.data);
       if (null != patrol) {
-        bzfdxController.value =
-            TextEditingValue(text: patrol.proposerName ?? '');
-        yxzjhmController.value = TextEditingValue(text: patrol.no ?? '');
+        bzfdx = patrol.proposerName ?? '';
+        yxzjhm = patrol.no ?? '';
       }
+      setState(() {});
     }
   }
 
@@ -435,8 +422,8 @@ class _RegulatoryEntryState extends State<PatrolEntryPage> {
     ResultData resultData =
         await BasicNetService().post(Api.addApparitor, params: {
       "patrolId": widget.patrolId, //
-      "proposerName": bzfdxController.text.trim(),
-      "no": yxzjhmController.text.trim(), //有效证件号码
+      "proposerName": bzfdx.trim(),
+      "no": yxzjhm.trim(), //有效证件号码
       "apparitorDate": patrolDate, //执法日期
       "apparitorName": zfrymcController.text.trim(), //执法人员名称
       /**执法结果
@@ -513,11 +500,11 @@ class _RegulatoryEntryState extends State<PatrolEntryPage> {
 
   //检查必填项
   bool checkInputInfo() {
-    if (bzfdxController.text.trim().length <= 0) {
+    if (bzfdx.trim().length <= 0) {
       showToast('请填写被执法对象');
       return false;
     }
-    if (yxzjhmController.text.trim().length <= 0) {
+    if (yxzjhm.trim().length <= 0) {
       showToast('请填写有效证件号码');
       return false;
     }
@@ -526,7 +513,7 @@ class _RegulatoryEntryState extends State<PatrolEntryPage> {
       return false;
     }
     if (zfrymcController.text.trim().length <= 0) {
-      showToast('请填写巡查人员名称');
+      showToast('请填写执法人员名称');
       return false;
     }
     if (zfjgsmController.text.trim().length <= 0) {

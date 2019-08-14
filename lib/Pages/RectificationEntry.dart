@@ -68,88 +68,82 @@ class RectificationEntryState extends State<RectificationEntryPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-        valueListenable: _valueListenable,
-        builder: ((BuildContext context, InitDataModle value, Widget child) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text('整改信息录入'),
-              centerTitle: true,
-            ),
-            extendBody: false,
-            backgroundColor: Colors.white,
-            bottomNavigationBar: Container(
-              color: Colors.white,
-              height: 50,
-              width: double.infinity,
-              child: Row(
-                children: <Widget>[
-                  Flexible(
-                      fit: FlexFit.tight,
-                      child: FlatButton(
-                          onPressed: () {
-                            // 关闭页面,并返回数据用于刷新上一个页面
-                            Navigator.pop(context);
-                          },
-                          child: Text('取消'))),
-                  Container(
-                    color: Colors.grey,
-                    height: double.infinity,
-                    width: 1,
-                  ),
-                  Flexible(
-                      fit: FlexFit.tight,
-                      child: FlatButton(
-                          onPressed: () {
-                            // 提交录入数据
-                            if (checkInputInfo()) {
-                              submitData();
-                            }
-                          },
-                          child: Text('提交'))),
-                ],
+    return CostomWillPopScope(
+        title: '整改信息录入详情',
+        bottomNavigationBar: Container(
+          color: Colors.white,
+          height: 50,
+          width: double.infinity,
+          child: Row(
+            children: <Widget>[
+              Flexible(
+                  fit: FlexFit.tight,
+                  child: FlatButton(
+                      onPressed: () {
+                        // 关闭页面,并返回数据用于刷新上一个页面
+                        Navigator.pop(context);
+                      },
+                      child: Text('取消'))),
+              Container(
+                color: Colors.grey,
+                height: double.infinity,
+                width: 1,
               ),
-            ),
-            body: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  spaceWidget(),
-                  _getInfoItem(title: '被检查人：', content: value.name),
-                  _getInfoItem(title: '身份证号：', content: value.cardNum),
-                  _getInfoItem(title: '检查日期：', content: value.checkDate),
-                  _getInfoItem(title: '巡查人员：', content: value.patrolName),
-                  _getInfoItem(title: '检查次数：', content: value.checkNum),
-                  _getInfoItem(title: '检查结果：', content: value.checkResult),
-                  _getInfoItem(title: '处理结果：', content: value.treatmentResult),
-                  //只有选择的期限整改才会有整改到期日期选择
-                  true
-                      ? _getInfoItem(
-                          title: '整改到期日期：',
-                          content: value.rectificationPreiodDate)
-                      : Center(),
-                  _getInfoItemForMultiple(
-                      title: '检查结果说明：', content: value.checkResultExplian),
-                  //分割区域
-                  spaceWidget(),
-                  //企业区域标题
-                  getAreaTitle(),
-                  _getJCJGItem(
-                      title: '整改结果：',
-                      selectPosition: value.rectificationResult),
-                  //只有选择的继续整改才会有整改到期日期选择
-                  _getZGDQRQItem(
-                      title: '整改到期日期：',
-                      hint: '请输入检查次数',
-                      offstage: value.rectificationResult == 2),
-                  //整改结果说明输入框
-                  _getZGJGSMItem(zgjgsmController),
-                  //分割区域
-                  spaceWidget(),
-                ], //初始化控件数据
-              ),
-            ),
-          );
-        }));
+              Flexible(
+                  fit: FlexFit.tight,
+                  child: FlatButton(
+                      onPressed: () {
+                        // 提交录入数据
+                        if (checkInputInfo()) {
+                          submitData();
+                        }
+                      },
+                      child: Text('提交'))),
+            ],
+          ),
+        ),
+        body: ValueListenableBuilder(
+            valueListenable: _valueListenable,
+            builder:
+                ((BuildContext context, InitDataModle value, Widget child) {
+              return SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    spaceWidget(),
+                    _getInfoItem(title: '被检查人：', content: value.name),
+                    _getInfoItem(title: '身份证号：', content: value.cardNum),
+                    _getInfoItem(title: '检查日期：', content: value.checkDate),
+                    _getInfoItem(title: '巡查人员：', content: value.patrolName),
+                    _getInfoItem(title: '检查次数：', content: value.checkNum),
+                    _getInfoItem(title: '检查结果：', content: value.checkResult),
+                    _getInfoItem(
+                        title: '处理结果：', content: value.treatmentResult),
+                    //只有选择的期限整改才会有整改到期日期选择
+                    _getInfoItem(
+                        title: '整改到期日期：',
+                        content: value.rectificationPreiodDate),
+                    _getInfoItemForMultiple(
+                        title: '检查结果说明：', content: value.checkResultExplian),
+                    //分割区域
+                    spaceWidget(),
+                    //企业区域标题
+                    getAreaTitle(),
+                    _getJCJGItem(
+                        title: '整改结果：',
+                        selectPosition: value.rectificationResult),
+                    //只有选择的继续整改才会有整改到期日期选择
+                    _getZGDQRQItem(
+                        title: '整改到期日期：',
+                        hint: '请输入整改到期日期',
+                        offstage: value.rectificationResult == 2),
+                    //整改结果说明输入框
+                    _getZGJGSMItem(zgjgsmController),
+                    //分割区域
+                    spaceWidget(),
+                  ], //初始化控件数据
+                ),
+              );
+            })));
   }
 
   _getInfoItem({String title, String content}) {
@@ -281,8 +275,8 @@ class RectificationEntryState extends State<RectificationEntryPage> {
                         ).then((selectDate) {
                           //设置选择的日期
                           print(selectDate.toString());
-                          _valueListenable.changeRectificationPreiodDate(
-                              '${selectDate.year}-${selectDate.month < 10 ? '0' + selectDate.month.toString() : selectDate.month}-${selectDate.day}');
+                          _valueListenable.changeRectificationPreiodDateNew(
+                              '${selectDate.year}-${selectDate.month < 10 ? '0' + selectDate.month.toString() : selectDate.month}-${selectDate.day < 10 ? '0' + selectDate.day.toString() : selectDate.day}');
 //                        setState(() {});
                         }).catchError((error) {
                           print(error);
@@ -293,7 +287,7 @@ class RectificationEntryState extends State<RectificationEntryPage> {
                             left: ScreenUtil().setWidth(20),
                             right: RectificationEntryPage.itemMaginLeft),
                         child: Text(
-                          initDataModle.rectificationPreiodDate,
+                          initDataModle.rectificationPreiodDateNew,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.right,
@@ -353,7 +347,7 @@ class RectificationEntryState extends State<RectificationEntryPage> {
       //整改结果说明
       "reformResultExplain": zgjgsmController.text.trim(),
       //整改到期日期
-      "reformEndDate": initDataModle.rectificationPreiodDate,
+      "reformEndDate": initDataModle.rectificationPreiodDateNew,
       //整改结果  1整改合格  2继续整改 3移交执法
       "reformResult": initDataModle.rectificationResult,
     });
@@ -429,20 +423,25 @@ class RectificationEntryState extends State<RectificationEntryPage> {
     ));
     //输入框
     widgetList.add(Container(
-      width: double.infinity,
-      height: double.infinity,
-      margin: EdgeInsets.only(
-          left: ScreenUtil().setWidth(30),
-          right: ScreenUtil().setWidth(30),
-          bottom: ScreenUtil().setWidth(30)),
-      constraints: BoxConstraints(
-        maxHeight: ScreenUtil().setHeight(100),
-      ),
-      child: Text(
-        '$content',
-        textAlign: TextAlign.start,
-        style: TextStyle(fontSize: ScreenUtil().setSp(30)),
-        maxLines: null,
+      constraints: BoxConstraints(maxHeight: ScreenUtil().setHeight(800)),
+      child: SingleChildScrollView(
+        child: Container(
+          width: double.infinity,
+//      height: double.infinity,
+          margin: EdgeInsets.only(
+              left: ScreenUtil().setWidth(30),
+              right: ScreenUtil().setWidth(30),
+              bottom: ScreenUtil().setWidth(30)),
+          constraints: BoxConstraints(
+            minHeight: ScreenUtil().setHeight(100),
+          ),
+          child: Text(
+            '$content',
+            textAlign: TextAlign.start,
+            style: TextStyle(fontSize: ScreenUtil().setSp(30)),
+            maxLines: null,
+          ),
+        ),
       ),
     ));
     return Column(
@@ -542,9 +541,16 @@ class RectificationEntryState extends State<RectificationEntryPage> {
       return false;
     }
     if (initDataModle.rectificationResult == 2) {
-      if (initDataModle.rectificationPreiodDate.trim().length <= 0) {
+      if (initDataModle.rectificationPreiodDateNew.trim().isEmpty) {
         showToast('请填写整改到期日期');
         return false;
+      } else {
+        //上传整改日期必须在本次整改日志之前
+        if (DateTime.parse(initDataModle.rectificationPreiodDate).isAfter(
+            DateTime.parse(initDataModle.rectificationPreiodDateNew))) {
+          showToast('新录入的整改到期日期必须在上次整改到期日期之前！');
+          return false;
+        }
       }
     }
     if (zgjgsmController.text.trim().length <= 0) {
@@ -567,8 +573,8 @@ class DataValueNotifier extends ValueNotifier<InitDataModle> {
   }
 
   //设置并只刷新整改日期
-  void changeRectificationPreiodDate(var rectificationPreiodDate) {
-    value.rectificationPreiodDate = rectificationPreiodDate;
+  void changeRectificationPreiodDateNew(var rectificationPreiodDate) {
+    value.rectificationPreiodDateNew = rectificationPreiodDate;
     notifyListeners();
   }
 }
@@ -596,6 +602,9 @@ class InitDataModle {
   //处理结果
   var treatmentResult = '';
 
+  //整改到期日期 不可修改的
+  String rectificationPreiodDate = '';
+
   //检查结果说明
   var checkResultExplian = '';
 
@@ -612,6 +621,6 @@ class InitDataModle {
   //整改结果
   int rectificationResult = 1; //默认选择通过
 
-  //整改到期日期
-  String rectificationPreiodDate = '';
+  //新录入的整改到期日期
+  String rectificationPreiodDateNew = '';
 }

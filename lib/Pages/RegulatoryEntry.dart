@@ -25,10 +25,8 @@ class RegulatoryEntryPage extends StatefulWidget {
   static var checkResultUpfileTitle = '检查结果记录表';
   static var otherUpfileTitle = '其他附件';
 
-
   //推送id
   int superBusId = -1;
-
 
   RegulatoryEntryPage(this.superBusId);
 
@@ -64,10 +62,10 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
 //  List<Asset> otherUpfileList = List();
 
   //被检查人姓名
-  TextEditingController bjcrController = TextEditingController();
+  String bjcrName = '';
 
   //身份证号码
-  TextEditingController sfzhController = TextEditingController();
+  String sfzhName = '';
 
   //检测次数
   TextEditingController jccsController = TextEditingController();
@@ -77,6 +75,9 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
 
   //检查结果说明
   TextEditingController jcjgsmController = TextEditingController();
+
+  //服务对象  //除了自然人 1，其他都按照企业执行
+  String serviceObject = '1';
 
   @override
   void initState() {
@@ -88,13 +89,9 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('监管信息录入'),
-        centerTitle: true,
-      ),
+    return CostomWillPopScope(
+      title: '监管信息录入详情',
       extendBody: false,
-      backgroundColor: Colors.white,
       bottomNavigationBar: Container(
         color: Colors.white,
         height: 50,
@@ -118,7 +115,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
                 fit: FlexFit.tight,
                 child: FlatButton(
                     onPressed: () {
-                      //todo 提交录入数据
+                      //提交录入数据
                       if (checkInputInfo()) {
                         submitData();
                       }
@@ -133,9 +130,13 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
             //分割区域
             spaceWidget(),
             _getInfoItem(
-                title: '被检查人：', hint: '请输入被检查人姓名', controller: bjcrController),
+                title: serviceObject == '1' ? '被检查人：' : '被检查企业：',
+                hint: '请输入被检查${serviceObject == '1' ? '人姓名' : '企业名称'}',
+                content: bjcrName),
             _getInfoItem(
-                title: '身份证号：', hint: '请输入身份证号码', controller: sfzhController),
+                title: serviceObject == '1' ? '身份证号：' : '企业信用id：',
+                hint: '请输入${serviceObject == '1' ? '身份证号码' : '企业信用id'}',
+                content: sfzhName),
             _getJCRQItem(title: '检查日期：', hint: '请选择检查日期'),
             _getJCCSItem(
                 title: '检查次数：', hint: '请输入检查次数', controller: jccsController),
@@ -169,10 +170,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
   }
 
   _getInfoItem(
-      {String title,
-      String hint,
-      TextEditingController controller,
-      bool isMandatory = true}) {
+      {String title, String hint, String content, bool isMandatory = true}) {
     return Container(
       height: RegulatoryEntryPage.itemHeight,
       child: Column(
@@ -188,12 +186,10 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
                   child: Container(
                     margin: EdgeInsets.only(
                         right: RegulatoryEntryPage.itemMaginLeft),
-                    child: TextField(
+                    child: Text(
+                      '$content',
                       maxLines: 1,
                       textAlign: TextAlign.right,
-                      controller: controller,
-                      decoration: InputDecoration(
-                          hintText: '$hint', border: InputBorder.none),
                       style: TextStyle(decoration: TextDecoration.none),
                     ),
                   ),
@@ -237,7 +233,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
                         //设置选择的日期
                         print(selectDate.toIso8601String());
                         this.checkDate =
-                            '${selectDate.year}-${selectDate.month < 10 ?'0'+selectDate.month.toString():selectDate.month}-${selectDate.day < 10 ?'0'+selectDate.day.toString():selectDate.day}';
+                            '${selectDate.year}-${selectDate.month < 10 ? '0' + selectDate.month.toString() : selectDate.month}-${selectDate.day < 10 ? '0' + selectDate.day.toString() : selectDate.day}';
                         setState(() {});
                       }).catchError((error) {
                         print(error);
@@ -527,7 +523,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
                         //设置选择的日期
                         print(selectDate.toIso8601String());
                         this.rectificationPreiodDate =
-                            '${selectDate.year}-${selectDate.month < 10 ?'0'+selectDate.month.toString():selectDate.month}-${selectDate.day < 10 ?'0'+selectDate.day.toString():selectDate.day}';
+                            '${selectDate.year}-${selectDate.month < 10 ? '0' + selectDate.month.toString() : selectDate.month}-${selectDate.day < 10 ? '0' + selectDate.day.toString() : selectDate.day}';
                         setState(() {});
                       }).catchError((error) {
                         print(error);
@@ -607,7 +603,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
   }
 
   //获取初始化数据
-  void getInitData() async {
+  getInitData() async {
     ResultData resultData =
         await BasicNetService().post(Api.addPatrolPage, params: {
       "superBusId": widget.superBusId,
@@ -622,22 +618,19 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
           Proposer proposer = business.proposer;
           if (null != proposer) {
             //服务对象类型
-            String serviceObject = business.serviceObject;
-            //除了自然人，其他都按照企业执行
+            serviceObject = business.serviceObject;
+            //除了自然人 1，其他都按照企业执行
             if (serviceObject == '1') {
-              bjcrController.value =
-                  TextEditingValue(text: proposer.userName ?? '');
-              sfzhController.value =
-                  TextEditingValue(text: proposer.userCardNo ?? '');
+              bjcrName = proposer.userName ?? '';
+              sfzhName = proposer.userCardNo ?? '';
             } else {
-              bjcrController.value =
-                  TextEditingValue(text: proposer.companyName ?? '');
-              sfzhController.value =
-                  TextEditingValue(text: proposer.companyNo ?? '');
+              bjcrName = proposer.companyName ?? '';
+              sfzhName = proposer.companyNo ?? '';
             }
           }
         }
       }
+      setState(() {});
     }
   }
 
@@ -654,7 +647,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
         await BasicNetService().post(Api.addPatrol, params: {
       "superBusId": widget.superBusId, //
       "businessId": businessId,
-      "proposerName": bjcrController.text.trim(),
+      "proposerName": bjcrName,
       "patrolDate": checkDate, //检查日期
       "patrolNum": jccsController.text.trim(), //检查次数
       "patrolResult": checkResult, //检查结果 1.符合 2基本符合  3不符合
@@ -784,11 +777,11 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
   }
 
   bool checkInputInfo() {
-    if (bjcrController.text.trim().length <= 0) {
+    if (bjcrName.trim().length <= 0) {
       showToast('请填写被检查人姓名');
       return false;
     }
-    if (sfzhController.text.trim().length <= 0) {
+    if (sfzhName.trim().length <= 0) {
       showToast('请填写身份证号码');
       return false;
     }
@@ -808,6 +801,12 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
       if (rectificationPreiodDate.trim().length <= 0) {
         showToast('请填写整改到期日期');
         return false;
+      } else {
+        if (DateTime.parse(checkDate)
+            .isAfter(DateTime.parse(rectificationPreiodDate))) {
+          showToast('检查日期必须在整改日期之前！');
+          return false;
+        }
       }
     }
     if (jcjgsmController.text.trim().length <= 0) {

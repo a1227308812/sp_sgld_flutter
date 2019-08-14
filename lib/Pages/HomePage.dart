@@ -14,14 +14,14 @@ import 'PatrolInformationEntryListPage.dart';
  * 描述：主页
  */
 class HomePage extends StatefulWidget {
-  static const List menuBgColors = [
-    0xff2dc2ea,
-    0xff4ee9c9,
-    0xff72a3ff,
-    0xff8b73ff,
-    0xff8b73ff,
-    0xff8b73ff
-  ];
+//  static const List menuBgColors = [
+//    0xff2dc2ea,
+//    0xff4ee9c9,
+//    0xff72a3ff,
+//    0xff8b73ff,
+//    0xff8b73ff,
+//    0xff8b73ff
+//  ];
 
   @override
   State<HomePage> createState() {
@@ -43,12 +43,11 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    //获取菜单列表
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('经开区审管联动'),
-        centerTitle: true,
-      ),
+    return CostomWillPopScope(
+      title: '曲靖经开区审管联动',
+      doubleExit: true,
+      showHomeMenu: false,
+      bodyColor: 0xff3497d7,
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -64,9 +63,10 @@ class HomePageState extends State<HomePage> {
     String menuCode,
     String icon = 'assets/images/index_icon_jgxxlr.png',
     String arrowIcon: 'assets/images/index_icon_arrow.png',
-    int color: 0xff8b73ff,
+    int color: 0xffeaf7ff,
   }) {
     List<BoxShadow> shadows = List<BoxShadow>();
+    //阴影
     BoxShadow boxShadow = BoxShadow(
         color: Color(
           0x21217fbd,
@@ -143,7 +143,7 @@ class HomePageState extends State<HomePage> {
                   style: TextStyle(
                       fontSize: ScreenUtil().setSp(36),
                       decorationColor: Colors.white,
-                      color: Colors.white),
+                      color: Color(0xff3497d7)),
                 ),
               ),
               Center(
@@ -178,11 +178,14 @@ class HomePageState extends State<HomePage> {
       height: ScreenUtil().setHeight(20),
     ));
     for (var i = 0; i < menuList.length; i++) {
-      menuWidgets.add(_getItemLayout(
+      menuWidgets.add(
+        _getItemLayout(
           title: menuList[i].zvalue,
           icon: getMenuLable(menuList[i].code),
           menuCode: menuList[i].code,
-          color: HomePage.menuBgColors[i]));
+//          color: HomePage.menuBgColors[i],
+        ),
+      );
     }
     setState(() {});
   }
@@ -197,20 +200,20 @@ class HomePageState extends State<HomePage> {
   //获取菜单lable
   getMenuLable(String menuCode) {
     switch (menuCode) {
-      case 'inquest': //现场勘验
-        return 'assets/images/index_icon_sxrl.png';
+//      case 'inquest': //现场勘验
+//        return 'assets/images/index_icon_sxrl.png';
       case 'itemClaim': //事项认领
-        return 'assets/images/index_icon_sxrl.png';
+        return 'assets/images/icon_sxrl.png';
       case 'superviseInput': //监管信息录入
-        return 'assets/images/index_icon_jgxxlr.png';
+        return 'assets/images/icon_jgxxlr.png';
       case 'rectificationInput': //整改信息录入
-        return 'assets/images/index_icon_zgxxlr.png';
+        return 'assets/images/icon_zgxxlr.png';
       case 'patrolClaim': //执法信息认领
-        return 'assets/images/index_icon_zgxxlr.png';
+        return 'assets/images/icon_zfrl.png';
       case 'senforcementInput': //执法信息录入
-        return 'assets/images/index_icon_zgxxlr.png';
+        return 'assets/images/icon_zfxxlr.png';
       case 'comprehensive': //综合查询
-        return 'assets/images/index_icon_zhcx.png';
+        return 'assets/images/icon_zhcx.png';
     }
   }
 }

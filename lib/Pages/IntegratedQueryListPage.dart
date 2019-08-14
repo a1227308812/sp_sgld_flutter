@@ -50,10 +50,8 @@ class IntegratedQueryState extends State<IntegratedQueryListPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('build');
-    return Scaffold(
-      appBar: AppBar(centerTitle: true, title: Text('综合查询')),
-      extendBody: true,
+    return CostomWillPopScope(
+      title: '综合查询',
       body: InfiniteListView(
           padding: EdgeInsets.only(
               top: ScreenUtil().setHeight(20),
@@ -222,7 +220,8 @@ class IntegratedQueryState extends State<IntegratedQueryListPage> {
           initDataModle.id = superBuspush.patrolId ?? -1;
           initDataModle.proposerName = superBuspush.proposerName ?? '';
           initDataModle.itemName = '事项名称：' + superBuspush.itemName ?? '';
-          initDataModle.hadDetail = superBuspush.patrolId == null ? false : true;
+          initDataModle.hadDetail =
+              superBuspush.patrolId == null ? false : true;
           return initDataModle;
 //          Business business = superBuspush.busienss;
 //          //初始化办件id

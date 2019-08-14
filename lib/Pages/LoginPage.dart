@@ -33,7 +33,11 @@ class _LoginPageState extends State<LoginPage> {
    */
   _getContentWidget() {
     return Container(
-      color: Colors.white,
+      decoration: BoxDecoration(
+          image: DecorationImage(
+        image: AssetImage('assets/images/login_bg.png'),
+        fit: BoxFit.fill,
+      )),
       //滚动竖向排列布局
       child: ListView(
         //shrinkWrap：该属性表示是否根据子widget的总长度来设置ListView的长度，
@@ -46,13 +50,13 @@ class _LoginPageState extends State<LoginPage> {
           //标题
           _getTitleLayout(),
           //账号输入框
-          _getInputLayout(
-              accountController, "assets/images/logo.png", "请输入用户名", false),
+          _getInputLayout(accountController, "assets/images/icon_account.png",
+              "请输入用户名", false),
           //密码输入框
-          _getInputLayout(
-              passwordController, "assets/images/logo.png", "请输入密码", true),
-          //注册和忘记密码
-          _getRegisterOrForgetLayout(),
+          _getInputLayout(passwordController, "assets/images/icon_password.png",
+              "请输入密码", true),
+//          //注册和忘记密码
+//          _getRegisterOrForgetLayout(),
           //登录按钮
           _getLoginInLayout(),
         ],
@@ -65,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
     return Padding(
       padding: EdgeInsets.only(top: ScreenUtil().setHeight(164)),
       child: Image.asset(
-        "assets/images/logo.png",
+        "assets/images/ic_app.png",
         width: ScreenUtil().setWidth(150),
         height: ScreenUtil().setWidth(150),
         fit: BoxFit.contain,
@@ -222,7 +226,7 @@ class _LoginPageState extends State<LoginPage> {
   _getLoginInLayout() {
     return Center(
       child: Container(
-        margin: EdgeInsets.only(top: ScreenUtil().setHeight(43)),
+        margin: EdgeInsets.only(top: ScreenUtil().setHeight(143)),
         width: ScreenUtil().setWidth(650),
         height: ScreenUtil().setHeight(80),
         child: RaisedButton(

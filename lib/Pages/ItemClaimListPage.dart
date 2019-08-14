@@ -16,7 +16,6 @@ import 'package:sp_sgld_flutter/Common/local/LocalStorageKey.dart';
 class ItemCliamListPage extends StatefulWidget {
   @override
   State<ItemCliamListPage> createState() {
-    // TODO: implement createState
     return _ItemCliamListPageState();
   }
 }
@@ -29,19 +28,13 @@ class _ItemCliamListPageState extends State<ItemCliamListPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return Scaffold(
-      backgroundColor: Color(0xfff7f7f9),
-      appBar: AppBar(
-        title: Text('列表'),
-        centerTitle: true,
-      ),
+    return CostomWillPopScope(
+      title: '事项认领',
       body: InfiniteListView(
         padding: EdgeInsets.only(
             top: ScreenUtil().setHeight(20),
@@ -218,20 +211,20 @@ class _ItemCliamListPageState extends State<ItemCliamListPage> {
       },
       child: Container(
         margin: EdgeInsets.only(
-            right: ScreenUtil().setWidth(30),
-            left: ScreenUtil().setWidth(10)),
+            right: ScreenUtil().setWidth(30), left: ScreenUtil().setWidth(10)),
         alignment: Alignment.center,
         width: ScreenUtil().setWidth(88),
         height: ScreenUtil().setWidth(88),
         decoration: ShapeDecoration(
           shape: CircleBorder(),
           color: Color(0xff78cefd),
-          shadows: [BoxShadow(color: Colors.grey,offset: Offset(1, 1),blurRadius: 3)],
+          shadows: [
+            BoxShadow(color: Colors.grey, offset: Offset(1, 1), blurRadius: 3)
+          ],
         ),
         child: Text('接收',
             style: TextStyle(
-                color: Colors.white,
-                fontSize: ScreenUtil().setSp(24))),
+                color: Colors.white, fontSize: ScreenUtil().setSp(24))),
       ),
     );
 

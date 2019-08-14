@@ -40,10 +40,8 @@ class RegulatoryInformationEntryState
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return Scaffold(
-      appBar: AppBar(centerTitle: true, title: Text('监管信息')),
-      extendBody: true,
+    return CostomWillPopScope(
+      title: '执法信息',
       body: InfiniteListView(
           padding: EdgeInsets.only(
               top: ScreenUtil().setHeight(20),
@@ -113,8 +111,7 @@ class RegulatoryInformationEntryState
                     Container(
                       margin: EdgeInsets.only(top: ScreenUtil().setHeight(25)),
                       child: Text(
-                        '申请人/企业名称：' +
-                            patrolList[index].proposerName.toString(),
+                        '申请人/企业名称：' + patrolList[index].proposerName.toString(),
                         style: TextStyle(
                           color: Color(0xffa0a4a9),
                           fontSize: ScreenUtil().setSp(30),
@@ -178,8 +175,8 @@ class RegulatoryInformationEntryState
       'pageSize': Config.pageSize,
       'pageNum': pageNum
     };
-    ResultData resultData =
-        await BasicNetService().post(Api.listPagedMyApparitorClaim, params: parms);
+    ResultData resultData = await BasicNetService()
+        .post(Api.listPagedMyApparitorClaim, params: parms);
     if (resultData.resultStatue) {
       PageResult result = PageResult.fromJson(resultData.data);
       if (null != result) {

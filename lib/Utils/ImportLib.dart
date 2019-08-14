@@ -9,6 +9,7 @@ export 'package:event_bus/event_bus.dart';
 export 'package:sp_sgld_flutter/Common/config/Config.dart';
 export 'package:sp_sgld_flutter/Utils/NavigatorUtils.dart';
 export 'package:sp_sgld_flutter/Common/event/EventHelper.dart';
+export 'package:sp_sgld_flutter/Widgets/CostomWillPopScope.dart';
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ import 'package:event_bus/event_bus.dart';
 import 'package:sp_sgld_flutter/Utils/NavigatorUtils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sp_sgld_flutter/Common/event/EventHelper.dart';
+import 'package:sp_sgld_flutter/Widgets/CostomWillPopScope.dart';
 
 /**
  * Created by ZWP on 2019/7/12 13:32.
