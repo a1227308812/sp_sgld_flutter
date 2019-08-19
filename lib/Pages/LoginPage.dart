@@ -17,10 +17,10 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 //  TextEditingController accountController = TextEditingController()..value = TextEditingValue(text: 'scjgjjg001');
-  TextEditingController accountController = TextEditingController()
-    ..value = TextEditingValue(text: 'scjgjzf001');
-  TextEditingController passwordController = TextEditingController()
-    ..value = TextEditingValue(text: '1');
+//  TextEditingController accountController = TextEditingController()..value = TextEditingValue(text: 'scjgjzf001');
+  TextEditingController accountController = TextEditingController();
+//  TextEditingController passwordController = TextEditingController()..value = TextEditingValue(text: '1');
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

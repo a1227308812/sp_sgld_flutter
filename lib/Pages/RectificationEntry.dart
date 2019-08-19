@@ -169,7 +169,7 @@ class RectificationEntryState extends State<RectificationEntryPage> {
                       '$content',
                       maxLines: 1,
                       textAlign: TextAlign.right,
-                      style: TextStyle(decoration: TextDecoration.none),
+                      style: TextStyle(fontSize: ScreenUtil().setSp(30),decoration: TextDecoration.none,color: Colors.black),
                     ),
                   ),
                 )
@@ -291,7 +291,7 @@ class RectificationEntryState extends State<RectificationEntryPage> {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.right,
-                          style: TextStyle(decoration: TextDecoration.none),
+                          style: TextStyle(fontSize: ScreenUtil().setSp(30),decoration: TextDecoration.none,color: Colors.black),
                         ),
                       ),
                     ),

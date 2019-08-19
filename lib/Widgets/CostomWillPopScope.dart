@@ -77,20 +77,23 @@ class CostomWillPopScopeState extends State<CostomWillPopScope> {
             centerTitle: true,
             title: Text(widget.title),
             actions: <Widget>[
-              GestureDetector(
-                onTap: widget.homeTap == null
-                    ? () {
-                        //返回主页
-                        Navigator.of(context)
-                            .popUntil(ModalRoute.withName("/home"));
-                      }
-                    : widget.homeTap,
-                child: Container(
-                  margin: EdgeInsets.only(right: 10),
-                  child: Image(
-                    image: AssetImage('assets/images/icon_home.png'),
-                    height: 25,
-                    width: 25,
+              Offstage(
+                offstage: !widget.showHomeMenu,
+                child: GestureDetector(
+                  onTap: widget.homeTap == null
+                      ? () {
+                          //返回主页
+                          Navigator.of(context)
+                              .popUntil(ModalRoute.withName("/home"));
+                        }
+                      : widget.homeTap,
+                  child: Container(
+                    margin: EdgeInsets.only(right: 10),
+                    child: Image(
+                      image: AssetImage('assets/images/icon_home.png'),
+                      height: 25,
+                      width: 25,
+                    ),
                   ),
                 ),
               ),

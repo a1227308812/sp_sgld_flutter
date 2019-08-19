@@ -42,6 +42,7 @@ class RegulatoryInformationEntryState
   Widget build(BuildContext context) {
     return CostomWillPopScope(
       title: '执法信息',
+      showHomeMenu: false,
       body: InfiniteListView(
           padding: EdgeInsets.only(
               top: ScreenUtil().setHeight(20),

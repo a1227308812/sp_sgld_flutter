@@ -41,24 +41,10 @@ class RectificationInformationEntryState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(centerTitle: true, title: Text('整改信息'), actions: <Widget>[
-        GestureDetector(
-          onTap: () {
-            //返回主页
-            Navigator.of(context).popUntil(ModalRoute.withName("/home"));
-          },
-          child: Container(
-            margin: EdgeInsets.only(right: 10),
-            child: Image(
-              image: AssetImage('assets/images/icon_home.png'),
-              height: 25,
-              width: 25,
-            ),
-          ),
-        ),
-      ]),
+    return CostomWillPopScope(
+      title: '整改信息',
       extendBody: true,
+      showHomeMenu: false,
       body: InfiniteListView(
           padding: EdgeInsets.only(
               top: ScreenUtil().setHeight(20),

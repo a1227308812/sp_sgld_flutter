@@ -65,7 +65,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
   String bjcrName = '';
 
   //身份证号码
-  String sfzhName = '';
+  String yxzjhm = '';
 
   //检测次数
   TextEditingController jccsController = TextEditingController();
@@ -134,9 +134,9 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
                 hint: '请输入被检查${serviceObject == '1' ? '人姓名' : '企业名称'}',
                 content: bjcrName),
             _getInfoItem(
-                title: serviceObject == '1' ? '身份证号：' : '企业信用id：',
-                hint: '请输入${serviceObject == '1' ? '身份证号码' : '企业信用id'}',
-                content: sfzhName),
+                title: serviceObject == '1' ? '身份证号：' : '企业信用ID：',
+                hint: '请输入${serviceObject == '1' ? '身份证号码' : '企业信用ID'}',
+                content: yxzjhm),
             _getJCRQItem(title: '检查日期：', hint: '请选择检查日期'),
             _getJCCSItem(
                 title: '检查次数：', hint: '请输入检查次数', controller: jccsController),
@@ -294,7 +294,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                           hintText: '$hint', border: InputBorder.none),
-                      style: TextStyle(decoration: TextDecoration.none),
+                      style: TextStyle(fontSize: ScreenUtil().setSp(30),decoration: TextDecoration.none,color: Colors.black),
                     ),
                   ),
                 )
@@ -481,7 +481,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
                       controller: controller,
                       decoration: InputDecoration(
                           hintText: '$hint', border: InputBorder.none),
-                      style: TextStyle(decoration: TextDecoration.none),
+                      style: TextStyle(fontSize: ScreenUtil().setSp(30),decoration: TextDecoration.none,color: Colors.black),
                     ),
                   ),
                 )
@@ -622,10 +622,10 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
             //除了自然人 1，其他都按照企业执行
             if (serviceObject == '1') {
               bjcrName = proposer.userName ?? '';
-              sfzhName = proposer.userCardNo ?? '';
+              yxzjhm = proposer.userCardNo ?? '';
             } else {
               bjcrName = proposer.companyName ?? '';
-              sfzhName = proposer.companyNo ?? '';
+              yxzjhm = proposer.companyNo ?? '';
             }
           }
         }
@@ -647,12 +647,13 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
         await BasicNetService().post(Api.addPatrol, params: {
       "superBusId": widget.superBusId, //
       "businessId": businessId,
-      "proposerName": bjcrName,
+      "proposerName": bjcrName, //申请人名称
+      "no": yxzjhm, //有效证件号码
       "patrolDate": checkDate, //检查日期
       "patrolNum": jccsController.text.trim(), //检查次数
       "patrolResult": checkResult, //检查结果 1.符合 2基本符合  3不符合
       "treatmentResult": treatmentResult, //处理结果 1通过  2限期整改 3移交执法
-      "rummageName": xcryController.text.trim(),
+      "rummageName": xcryController.text.trim(), //巡查人员名称
       "treatmentEndDate": rectificationPreiodDate, //整改到期日期
       "patrolResultExplain": jcjgsmController.text.trim() //检查结果说明
     });
@@ -702,7 +703,7 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
       child: TextField(
         controller: textEditController,
         textAlign: TextAlign.start,
-        style: TextStyle(fontSize: ScreenUtil().setSp(30)),
+        style: TextStyle(fontSize: ScreenUtil().setSp(30),decoration: TextDecoration.none,color: Colors.black),
         maxLines: null,
         decoration: InputDecoration(
           border: InputBorder.none,
@@ -781,8 +782,11 @@ class _RegulatoryEntryState extends State<RegulatoryEntryPage> {
       showToast('请填写被检查人姓名');
       return false;
     }
-    if (sfzhName.trim().length <= 0) {
-      showToast('请填写身份证号码');
+    if (yxzjhm.trim().length <= 0) {
+      if (serviceObject == '1')
+        showToast('请填写身份证号码');
+      else
+        showToast('请填写企业信用ID');
       return false;
     }
     if (checkDate.trim().length <= 0) {

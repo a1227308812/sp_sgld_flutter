@@ -35,6 +35,7 @@ class _PatrolClaimListPageState extends State<PatrolClaimListPage> {
   Widget build(BuildContext context) {
     return CostomWillPopScope(
         title: '执法认领',
+        showHomeMenu: false,
         bodyColor: 0xfff7f7f9,
         body: InfiniteListView(
           padding: EdgeInsets.only(
@@ -237,6 +238,7 @@ class _PatrolClaimListPageState extends State<PatrolClaimListPage> {
 
   //提交认领信息
   void _submitData(int id) async {
+    print("_submitData");
     Map parms = {
       //事项id
       'id': id,

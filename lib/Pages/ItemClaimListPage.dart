@@ -35,6 +35,7 @@ class _ItemCliamListPageState extends State<ItemCliamListPage> {
   Widget build(BuildContext context) {
     return CostomWillPopScope(
       title: '事项认领',
+      showHomeMenu: false,
       body: InfiniteListView(
         padding: EdgeInsets.only(
             top: ScreenUtil().setHeight(20),

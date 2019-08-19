@@ -52,6 +52,7 @@ class IntegratedQueryState extends State<IntegratedQueryListPage> {
   Widget build(BuildContext context) {
     return CostomWillPopScope(
       title: '综合查询',
+      showHomeMenu: false,
       body: InfiniteListView(
           padding: EdgeInsets.only(
               top: ScreenUtil().setHeight(20),

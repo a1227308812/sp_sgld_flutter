@@ -161,7 +161,10 @@ class _RegulatoryEntryState extends State<PatrolEntryPage> {
                       '$content',
                       maxLines: 1,
                       textAlign: TextAlign.right,
-                      style: TextStyle(decoration: TextDecoration.none),
+                      style: TextStyle(
+                          fontSize: ScreenUtil().setSp(30),
+                          decoration: TextDecoration.none,
+                          color: Colors.black),
                     ),
                   ),
                 )
@@ -219,53 +222,11 @@ class _RegulatoryEntryState extends State<PatrolEntryPage> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.right,
-                        style: TextStyle(decoration: TextDecoration.none),
+                        style: TextStyle(
+                            fontSize: ScreenUtil().setSp(30),
+                            decoration: TextDecoration.none,
+                            color: Colors.black),
                       ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          Divider(
-            height: 1,
-            color: Colors.grey,
-          )
-        ],
-      ),
-    );
-  }
-
-  //检查次数
-  _getJCCSItem(
-      {String title,
-      String hint,
-      TextEditingController controller,
-      bool isMandatory = true}) {
-    return Container(
-      height: PatrolEntryPage.itemHeight,
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                buildTipView(isMandatory),
-                Text('$title'),
-                Expanded(
-                  child: Container(
-                    margin: EdgeInsets.only(
-                        left: ScreenUtil().setWidth(10),
-                        right: PatrolEntryPage.itemMaginLeft),
-                    child: TextField(
-                      maxLines: 1,
-                      textAlign: TextAlign.right,
-                      controller: controller,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                          hintText: '$hint', border: InputBorder.none),
-                      style: TextStyle(decoration: TextDecoration.none),
                     ),
                   ),
                 )
@@ -309,7 +270,10 @@ class _RegulatoryEntryState extends State<PatrolEntryPage> {
                       controller: controller,
                       decoration: InputDecoration(
                           hintText: '$hint', border: InputBorder.none),
-                      style: TextStyle(decoration: TextDecoration.none),
+                      style: TextStyle(
+                          fontSize: ScreenUtil().setSp(30),
+                          decoration: TextDecoration.none,
+                          color: Colors.black),
                     ),
                   ),
                 )
@@ -361,7 +325,10 @@ class _RegulatoryEntryState extends State<PatrolEntryPage> {
       child: TextField(
         controller: textEditController,
         textAlign: TextAlign.start,
-        style: TextStyle(fontSize: ScreenUtil().setSp(30)),
+        style: TextStyle(
+            fontSize: ScreenUtil().setSp(30),
+            decoration: TextDecoration.none,
+            color: Colors.black),
         maxLines: null,
         decoration: InputDecoration(
           border: InputBorder.none,
@@ -484,7 +451,10 @@ class _RegulatoryEntryState extends State<PatrolEntryPage> {
       child: TextField(
         controller: textEditController,
         textAlign: TextAlign.start,
-        style: TextStyle(fontSize: ScreenUtil().setSp(30)),
+        style: TextStyle(
+            fontSize: ScreenUtil().setSp(30),
+            decoration: TextDecoration.none,
+            color: Colors.black),
         maxLines: null,
         decoration: InputDecoration(
           border: InputBorder.none,
@@ -536,27 +506,28 @@ class _RegulatoryEntryState extends State<PatrolEntryPage> {
     List<DropdownMenuItem> itemList = List();
     itemList
       ..add(DropdownMenuItem(
-        child: Text('警告'),
+        child: Container(alignment: Alignment.centerRight, child: Text('警告')),
         value: '0',
       ))
       ..add(DropdownMenuItem(
-        child: Text('罚款'),
+        child: Container(alignment: Alignment.centerRight, child: Text('罚款')),
         value: '1',
       ))
       ..add(DropdownMenuItem(
-        child: Text('行政拘留'),
+        child: Container(alignment: Alignment.centerRight, child: Text('行政拘留')),
         value: '2',
       ))
       ..add(DropdownMenuItem(
-        child: Text('吊销'),
+        child: Container(alignment: Alignment.centerRight, child: Text('吊销')),
         value: '3',
       ))
       ..add(DropdownMenuItem(
-        child: Text('收缴和追缴'),
+        child:
+            Container(alignment: Alignment.centerRight, child: Text('收缴和追缴')),
         value: '4',
       ))
       ..add(DropdownMenuItem(
-        child: Text('其它'),
+        child: Container(alignment: Alignment.centerRight, child: Text('其它')),
         value: '5',
       ));
 
@@ -578,7 +549,12 @@ class _RegulatoryEntryState extends State<PatrolEntryPage> {
                         right: PatrolEntryPage.itemMaginLeft),
                     child: DropdownButton(
                       items: itemList,
-                      hint: Text(hint),
+                      hint: Text(hint,
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                              fontSize: ScreenUtil().setSp(30),
+                              decoration: TextDecoration.none,
+                              color: Colors.black)),
                       //当没有默认值的时候可以设置的提示
                       value: penaltyResult,
                       //下拉菜单选择完之后显示给用户的值
@@ -596,7 +572,10 @@ class _RegulatoryEntryState extends State<PatrolEntryPage> {
                       elevation: 16,
                       //设置文本框里面文字的样式
                       underline: Container(),
-                      style: TextStyle(color: Colors.red),
+                      style: TextStyle(
+                          fontSize: ScreenUtil().setSp(30),
+                          decoration: TextDecoration.none,
+                          color: Colors.black),
                     ),
                   ),
                 )
