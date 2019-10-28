@@ -13,7 +13,7 @@
 
 	<application
 			android:name = "io.flutter.app.FlutterApplication"
-			android:icon = "@mipmap/ic_launcher"
+			android:icon = "@drawable/ic_logo"
 			android:label = "曲靖经开区审管联动">
 		<activity
 				android:name = ".MainActivity"

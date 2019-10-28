@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
     return Padding(
       padding: EdgeInsets.only(top: ScreenUtil().setHeight(164)),
       child: Image.asset(
-        "assets/images/ic_app.png",
+        "assets/images/ic_logo.png",
         width: ScreenUtil().setWidth(150),
         height: ScreenUtil().setWidth(150),
         fit: BoxFit.contain,
